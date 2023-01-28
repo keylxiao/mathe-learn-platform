@@ -7,6 +7,8 @@ type User struct {
     UserName   string // 用户名
     TelePhone  string // 电话号码
     Status     int    // 用户权限(0平台管理员 1老师 2学生)
+    College    int    // 学院
+    Major      string // 专业
     CreateTime string // 创建时间
     UpdateTime string // 修改时间
     IsDelete   int    // 逻辑删除(0未删 1删除)
