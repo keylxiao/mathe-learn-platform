@@ -4,6 +4,7 @@ import (
     "github.com/kataras/iris/v12"
     "github.com/kataras/iris/v12/middleware/recover"
     "mathe-learn-platform/config"
+    "mathe-learn-platform/router"
 )
 
 func Cors(ctx iris.Context) {
@@ -27,7 +28,11 @@ func main() {
         })
     }
     // 定义接口路由
-
+    app.PartyFunc("/HomePage", router.HomePageRouters)
+    app.PartyFunc("/User", router.UserRouter)
+    app.PartyFunc("/WebSite", router.WebsiteRouter)
+    app.PartyFunc("/Blog", router.BlogRouter)
+    app.PartyFunc("/PostBar", router.PostBarRouter)
     // 开始监听
     app.Run(iris.Addr(config.BackendAddress+config.Port), iris.WithPostMaxMemory(config.FileSizeLimit))
 }
