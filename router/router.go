@@ -1,10 +1,16 @@
 package router
 
-import "github.com/kataras/iris/v12"
+import (
+    "github.com/kataras/iris/v12"
+    "mathe-learn-platform/controllers"
+)
 
 // HomePageRouters 主页路由
 func HomePageRouters(home iris.Party) {
     // 首页总览信息
+    home.Get("/HomePageInfo", controllers.GetHomePageInfo)
+    // 访问人数增加
+    home.Put("/PlatformVisit", controllers.PutPlatformVisit)
 }
 
 // UserRouter 用户路由
