@@ -23,4 +23,6 @@ func GetHomePageInfo() (HomePageInformation, error) {
 func PutPlatformVisit() {
     db := utils.DBOpen()
     db.Model(&HomePageInformation{}).Update("total_visitor", gorm.Expr("total_visitor + ?", 1))
+    sqlDB, _ := db.DB()
+    defer sqlDB.Close()
 }
