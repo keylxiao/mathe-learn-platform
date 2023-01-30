@@ -26,8 +26,8 @@ func UserRouter(user iris.Party) {
 
 // WebsiteRouter 网站路由
 func WebsiteRouter(web iris.Party) {
-    // 外部网站推荐
-
+    // 按关键字返回外部网站
+    web.Get("/OutsideWeb", controllers.GetWebsiteByKW)
 }
 
 // BlogRouter 博文路由
