@@ -3,6 +3,7 @@ module mathe-learn-platform
 go 1.17
 
 require (
+	github.com/gofrs/uuid v4.4.0+incompatible
 	github.com/kataras/iris/v12 v12.1.8
 	gorm.io/driver/mysql v1.4.5
 	gorm.io/gorm v1.24.3
