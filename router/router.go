@@ -22,6 +22,9 @@ func UserRouter(user iris.Party) {
     // 查看用户信息
 
     // 修改用户信息
+
+    // 用户头像上传
+    user.Post("/OnloadImage", controllers.PostLoadImage)
 }
 
 // WebsiteRouter 网站路由
