@@ -16,7 +16,7 @@ func HomePageRouters(home iris.Party) {
 // UserRouter 用户路由
 func UserRouter(user iris.Party) {
     // 用户注册
-
+    user.Post("/UserRegister", controllers.PostUserRegister)
     // 用户登录
 
     // 查看用户信息
