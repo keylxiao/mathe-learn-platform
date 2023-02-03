@@ -8,7 +8,7 @@ type User struct {
     Password   string // 密码(sha1加密)
     UserName   string // 用户名
     Telephone  string // 电话号码
-    QQNumebr   string // QQ号
+    QQNumber   string // QQ号
     Status     int    // 用户权限(0平台管理员 1老师 2学生)
     College    int    // 学院
     Major      string // 专业
@@ -30,7 +30,7 @@ func CheckOnlyOne(info User) string {
     if user.Account != "" {
         return "该手机号已被注册！"
     }
-    db.Where("_q_q_number = ?", info.QQNumebr).Find(&user)
+    db.Where("qq_number = ?", info.QQNumber).Find(&user)
     if user.Account != "" {
         return "该QQ号已被注册！"
     }

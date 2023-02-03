@@ -35,7 +35,7 @@ CREATE TABLE `users`
     `password`    varchar(20) DEFAULT NULL COMMENT '密码(sha1)',
     `user_name`   varchar(10) DEFAULT NULL COMMENT '用户名',
     `telephone`   varchar(11) DEFAULT NULL COMMENT '电话号码',
-    `_q_q_number` varchar(15) DEFAULT NULL COMMENT 'QQ号',
+    `qq_number` varchar(15) DEFAULT NULL COMMENT 'QQ号',
     `status`      int         DEFAULT 2 COMMENT '用户权限',
     `college`     int         DEFAULT 1 COMMENT '学院',
     `major`       varchar(15) DEFAULT NULL COMMENT '专业',
