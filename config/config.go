@@ -29,3 +29,13 @@ const (
     // DBLoc 本地用户
     DBLoc string = "Local"
 )
+
+// Redis参数配置
+const (
+    // RedisRemote 数据库占用端口
+    RedisRemote string = "localhost:6379"
+    // RedisPassword 数据库密码
+    RedisPassword string = "1984051718"
+    // RedisName 数据库名称
+    RedisName int = 0
+)
