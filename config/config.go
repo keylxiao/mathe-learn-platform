@@ -8,6 +8,10 @@ const (
     Port string = ":8001"
     // FileSizeLimit 上传文件最大限制
     FileSizeLimit int64 = 1024
+    // MLPEmailAddress MLP邮箱总地址
+    MLPEmailAddress string = "1285843834@qq.com"
+    // EmailCode MLP邮箱授权码
+    EmailCode string = "jzruajinzbyzhghj"
 )
 
 // MySQL参数配置
