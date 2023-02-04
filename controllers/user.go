@@ -1,6 +1,7 @@
 package controllers
 
 import (
+    "errors"
     "github.com/kataras/iris/v12"
     "io"
     "mathe-learn-platform/models"
@@ -37,6 +38,29 @@ func PostUserRegister(c iris.Context) {
     } else {
         c.StatusCode(http.StatusOK)
         c.JSON("注册成功, 欢迎您!")
+    }
+}
+
+// GetUserLogin 用户登录
+func GetUserLogin(c iris.Context) {
+    var info models.User
+    c.ReadJSON(&info)
+    isReal, err := models.GetUserLogin(info.Account, info.Password)
+    if err != nil {
+        if err == errors.New("none info") {
+            c.StatusCode(http.StatusOK)
+            c.JSON("none")
+        } else {
+            c.StatusCode(http.StatusInternalServerError)
+        }
+        return
+    }
+    if isReal {
+        c.StatusCode(http.StatusOK)
+        c.JSON("true")
+    } else {
+        c.StatusCode(http.StatusOK)
+        c.JSON("false")
     }
 }
 

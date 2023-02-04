@@ -18,7 +18,7 @@ func UserRouter(user iris.Party) {
     // 用户注册
     user.Post("/UserRegister", controllers.PostUserRegister)
     // 用户登录
-
+    user.Get("/UserLogin", controllers.GetUserLogin)
     // 查看用户信息
 
     // 修改用户信息

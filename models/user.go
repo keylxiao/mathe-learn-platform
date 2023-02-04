@@ -1,6 +1,9 @@
 package models
 
-import "mathe-learn-platform/utils"
+import (
+    "errors"
+    "mathe-learn-platform/utils"
+)
 
 type User struct {
     Id         string `gorm:"primary_key"` // 主键
@@ -50,4 +53,24 @@ func PostUserRegister(info User) error {
     }
     tx.Commit()
     return err
+}
+
+// GetUserLogin 用户登录
+func GetUserLogin(account, password string) (bool, error) {
+    db := utils.DBOpen()
+    sqlDB, _ := db.DB()
+    defer sqlDB.Close()
+    var info User
+    err := db.Where("account = ?", account).Find(&info).Error
+    if err != nil {
+        return false, err
+    }
+    if info.Password == "" {
+        return false, errors.New("none info")
+    }
+    if info.Password == password {
+        return true, err
+    } else {
+        return false, err
+    }
 }
