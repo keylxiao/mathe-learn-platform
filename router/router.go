@@ -25,6 +25,10 @@ func UserRouter(user iris.Party) {
 
     // 用户头像上传
     user.Post("/OnloadImage", controllers.PostLoadImage)
+    // 用户请求发送验证码
+    user.Get("/SendCode", controllers.GetSendCode)
+    // 用户验证码验证
+    user.Get("/VerifyCode", controllers.GetVerifyCode)
 }
 
 // WebsiteRouter 网站路由

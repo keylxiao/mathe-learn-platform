@@ -64,6 +64,31 @@ func GetUserLogin(c iris.Context) {
     }
 }
 
+// GetSendCode 用户请求发送验证码
+func GetSendCode(c iris.Context) {
+    userId := c.URLParam("id")
+    err := models.GetSendCode(userId)
+    if err != nil {
+        c.StatusCode(http.StatusInternalServerError)
+    } else {
+        c.StatusCode(http.StatusOK)
+        c.JSON("发送成功")
+    }
+}
+
+// GetVerifyCode 用户验证码验证
+func GetVerifyCode(c iris.Context) {
+    userId := c.URLParam("id")
+    code := c.URLParam("code")
+    isreal, err := models.GetVerifyCode(userId, code)
+    if err != nil {
+        c.StatusCode(http.StatusInternalServerError)
+    } else {
+        c.StatusCode(http.StatusOK)
+        c.JSON(isreal)
+    }
+}
+
 // PostLoadImage 上传用户头像
 func PostLoadImage(c iris.Context) {
     userId := c.URLParam("id")

@@ -2,7 +2,10 @@ package models
 
 import (
     "errors"
+    "math/rand"
     "mathe-learn-platform/utils"
+    "strconv"
+    "time"
 )
 
 type User struct {
@@ -69,6 +72,45 @@ func GetUserLogin(account, password string) (bool, error) {
         return false, errors.New("none info")
     }
     if info.Password == password {
+        return true, err
+    } else {
+        return false, err
+    }
+}
+
+// GetSendCode 用户请求发送验证码
+func GetSendCode(id string) error {
+    db := utils.RedisOpen()
+    defer db.Close()
+    sql := utils.DBOpen()
+    sqlDB, _ := sql.DB()
+    defer sqlDB.Close()
+    var user User
+    err := sql.Where("id = ?", id).Find(&user).Error
+    if err != nil {
+        return err
+    }
+    code := strconv.Itoa(rand.Int() % 10000)
+    err = db.Set(id, code, 5*time.Minute).Err()
+    if err != nil {
+        return err
+    }
+    err = utils.SendEmail(user.QQNumber, code, user.UserName)
+    if err != nil {
+        return err
+    }
+    return nil
+}
+
+// GetVerifyCode 用户验证码验证
+func GetVerifyCode(id, code string) (bool, error) {
+    db := utils.RedisOpen()
+    defer db.Close()
+    realcode, err := db.Get(id).Result()
+    if err != nil {
+        return false, err
+    }
+    if realcode == code {
         return true, err
     } else {
         return false, err
