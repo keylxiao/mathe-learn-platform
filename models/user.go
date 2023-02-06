@@ -14,7 +14,7 @@ type User struct {
     Password   string // 密码(sha1加密)
     UserName   string // 用户名
     Telephone  string // 电话号码
-    QQNumber   string // QQ号
+    Mailbox    string // 邮箱地址
     Status     int    // 用户权限(0平台管理员 1老师 2学生)
     College    int    // 学院
     Major      string // 专业
@@ -36,9 +36,9 @@ func CheckOnlyOne(info User) string {
     if user.Account != "" {
         return "该手机号已被注册！"
     }
-    db.Where("qq_number = ?", info.QQNumber).Find(&user)
+    db.Where("mailbox = ?", info.Mailbox).Find(&user)
     if user.Account != "" {
-        return "该QQ号已被注册！"
+        return "该邮箱已被注册！"
     }
     return ""
 }
@@ -95,7 +95,7 @@ func GetSendCode(id string) error {
     if err != nil {
         return err
     }
-    err = utils.SendEmail(user.QQNumber, code, user.UserName)
+    err = utils.SendEmail(user.Mailbox, code, user.UserName)
     if err != nil {
         return err
     }
