@@ -116,3 +116,17 @@ func GetVerifyCode(id, code string) (bool, error) {
         return false, err
     }
 }
+
+// GetUserInfo 查看用户信息
+func GetUserInfo(id string) (User, error) {
+    db := utils.DBOpen()
+    sqlDB, _ := db.DB()
+    defer sqlDB.Close()
+    var info User
+    err := db.Where("id = ?", id).Find(&info).Error
+    if err != nil {
+        return info, err
+    }
+    info.Password = ""
+    return info, nil
+}

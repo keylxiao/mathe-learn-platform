@@ -20,7 +20,7 @@ func UserRouter(user iris.Party) {
     // 用户登录
     user.Get("/UserLogin", controllers.GetUserLogin)
     // 查看用户信息
-
+    user.Get("/UserInfo", controllers.GetUserInfo)
     // 修改用户信息
 
     // 用户头像上传

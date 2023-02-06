@@ -89,6 +89,18 @@ func GetVerifyCode(c iris.Context) {
     }
 }
 
+// GetUserInfo 查看用户信息
+func GetUserInfo(c iris.Context) {
+    userId := c.URLParam("id")
+    info, err := models.GetUserInfo(userId)
+    if err != nil {
+        c.StatusCode(http.StatusInternalServerError)
+    } else {
+        c.StatusCode(http.StatusOK)
+        c.JSON(info)
+    }
+}
+
 // PostLoadImage 上传用户头像
 func PostLoadImage(c iris.Context) {
     userId := c.URLParam("id")
