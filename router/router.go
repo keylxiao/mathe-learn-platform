@@ -21,6 +21,8 @@ func UserRouter(user iris.Party) {
     user.Get("/UserLogin", controllers.GetUserLogin)
     // 查看用户信息
     user.Get("/UserInfo", controllers.GetUserInfo)
+    // 检索用户
+    user.Get("/SearchUser", controllers.GetSearchUser)
     // 修改用户信息
 
     // 用户头像上传

@@ -130,3 +130,13 @@ func GetUserInfo(id string) (User, error) {
     info.Password = ""
     return info, nil
 }
+
+// GetSearchUser 检索用户
+func GetSearchUser(info string) (User, error) {
+    db := utils.DBOpen()
+    sqlDB, _ := db.DB()
+    defer sqlDB.Close()
+    var user User
+    err := db.Where("user_name LIKE ?", info).Or("college = ?", info).Or("major LIKE ?", info).Find(&user).Error
+    return user, err
+}

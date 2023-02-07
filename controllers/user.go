@@ -101,6 +101,18 @@ func GetUserInfo(c iris.Context) {
     }
 }
 
+// GetSearchUser 检索用户
+func GetSearchUser(c iris.Context) {
+    info := c.URLParam("info")
+    result, err := models.GetSearchUser(info)
+    if err != nil {
+        c.StatusCode(http.StatusInternalServerError)
+    } else {
+        c.StatusCode(http.StatusOK)
+        c.JSON(result)
+    }
+}
+
 // PostLoadImage 上传用户头像
 func PostLoadImage(c iris.Context) {
     userId := c.URLParam("id")
