@@ -24,7 +24,7 @@ func UserRouter(user iris.Party) {
     // 检索用户
     user.Get("/SearchUser", controllers.GetSearchUser)
     // 修改用户信息
-
+    user.Put("/UpdateUser", controllers.PutUpdateUser)
     // 用户头像上传
     user.Post("/OnloadImage", controllers.PostLoadImage)
     // 用户请求发送验证码

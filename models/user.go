@@ -8,6 +8,7 @@ import (
     "time"
 )
 
+// User 用户信息结构体
 type User struct {
     Id         string `gorm:"primary_key"` // 主键
     Account    string // 学号/工号
@@ -20,6 +21,12 @@ type User struct {
     Major      string // 专业
     CreateTime string // 创建时间
     UpdateTime string // 修改时间
+}
+
+// UpdateUserInfo 用户修改信息结构体
+type UpdateUserInfo struct {
+    UpdateField string      // 更新字段
+    NewInfo     interface{} // 字段更新值
 }
 
 // CheckOnlyOne 检查用户信息是否已被注册
@@ -139,4 +146,21 @@ func GetSearchUser(info string) (User, error) {
     var user User
     err := db.Where("user_name LIKE ?", info).Or("college = ?", info).Or("major LIKE ?", info).Find(&user).Error
     return user, err
+}
+
+// PutUpdateUser 修改用户信息
+func PutUpdateUser(id string, update []UpdateUserInfo) (err error) {
+    db := utils.DBOpen()
+    sqlDB, _ := db.DB()
+    defer sqlDB.Close()
+    var user User
+    for i := range update {
+        if update[i].UpdateField == "college" {
+            update[i].NewInfo = update[i].NewInfo.(int)
+        } else {
+            update[i].NewInfo = update[i].NewInfo.(string)
+        }
+        err = db.Model(&user).Where("id = ?", id).Update(update[i].UpdateField, update[i].UpdateField).Error
+    }
+    return
 }

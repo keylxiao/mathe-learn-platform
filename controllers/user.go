@@ -113,6 +113,20 @@ func GetSearchUser(c iris.Context) {
     }
 }
 
+// PutUpdateUser 修改用户信息
+func PutUpdateUser(c iris.Context) {
+    var update []models.UpdateUserInfo
+    id := c.URLParam("id")
+    c.ReadJSON(&update)
+    err := models.PutUpdateUser(id, update)
+    if err != nil {
+        c.StatusCode(http.StatusInternalServerError)
+    } else {
+        c.StatusCode(http.StatusOK)
+        c.JSON("修改成功")
+    }
+}
+
 // PostLoadImage 上传用户头像
 func PostLoadImage(c iris.Context) {
     userId := c.URLParam("id")
