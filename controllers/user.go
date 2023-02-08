@@ -4,6 +4,7 @@ import (
     "errors"
     "github.com/kataras/iris/v12"
     "io"
+    "mathe-learn-platform/config"
     "mathe-learn-platform/models"
     "mathe-learn-platform/utils"
     "net/http"
@@ -132,8 +133,8 @@ func PutUpdateUser(c iris.Context) {
     }
 }
 
-// PostLoadImage 上传用户头像
-func PostLoadImage(c iris.Context) {
+// PostLoadIcon 上传用户头像
+func PostLoadIcon(c iris.Context) {
     userId := c.URLParam("id")
     file, _, err := c.FormFile("image")
     if err != nil {
@@ -143,7 +144,7 @@ func PostLoadImage(c iris.Context) {
     }
     defer file.Close()
     userId = userId + ".jpg"
-    out, err := os.OpenFile("./UserImage/"+userId, os.O_WRONLY|os.O_CREATE, 0666)
+    out, err := os.OpenFile(config.IconStorageAddress+userId, os.O_WRONLY|os.O_CREATE, 0666)
     if err != nil {
         c.StatusCode(http.StatusInternalServerError)
         c.JSON("上传失败")
@@ -153,4 +154,12 @@ func PostLoadImage(c iris.Context) {
     io.Copy(out, file)
     c.StatusCode(http.StatusOK)
     c.JSON("上传成功")
+}
+
+// GetUserIcon 获取用户头像
+func GetUserIcon(c iris.Context) {
+    userId := c.URLParam("id")
+    userId = config.IconStorageAddress + userId + ".jpg"
+    c.StatusCode(http.StatusOK)
+    c.SendFile(userId, "icon.jpg")
 }

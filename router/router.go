@@ -21,12 +21,14 @@ func UserRouter(user iris.Party) {
     user.Get("/UserLogin", controllers.GetUserLogin)
     // 查看用户信息
     user.Get("/UserInfo", controllers.GetUserInfo)
+    // 获取用户头像
+    user.Get("/UserIcon", controllers.GetUserIcon)
     // 检索用户
     user.Get("/SearchUser", controllers.GetSearchUser)
     // 修改用户信息
     user.Put("/UpdateUser", controllers.PutUpdateUser)
     // 用户头像上传
-    user.Post("/OnloadImage", controllers.PostLoadImage)
+    user.Post("/OnloadIcon", controllers.PostLoadIcon)
     // 用户请求发送验证码
     user.Get("/SendCode", controllers.GetSendCode)
     // 用户验证码验证

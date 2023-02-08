@@ -12,6 +12,8 @@ const (
     MLPEmailAddress string = "1285843834@qq.com"
     // EmailCode MLP邮箱授权码
     EmailCode string = "jzruajinzbyzhghj"
+    // IconStorageAddress 用户头像存储地址
+    IconStorageAddress string = "./UserImage/"
 )
 
 // MySQL参数配置
