@@ -155,7 +155,10 @@ func PutUpdateUser(id string, update []UpdateUserInfo) (err error) {
     defer sqlDB.Close()
     var user User
     for i := range update {
-        if update[i].UpdateField == "college" {
+        if update[i].UpdateField == "Id" || update[i].UpdateField == "Status" || update[i].UpdateField == "CreateTime" {
+            return errors.New("exceed authority")
+        }
+        if update[i].UpdateField == "College" {
             update[i].NewInfo = update[i].NewInfo.(int)
         } else {
             update[i].NewInfo = update[i].NewInfo.(string)

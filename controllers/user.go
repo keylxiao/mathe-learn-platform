@@ -17,7 +17,7 @@ func PostUserRegister(c iris.Context) {
     c.ReadJSON(&info)
     // 恶意用户权限检测
     if info.Status == 0 {
-        c.StatusCode(http.StatusOK)
+        c.StatusCode(http.StatusBadRequest)
         c.JSON("用户恶意修改权限")
         return
     }
@@ -120,7 +120,12 @@ func PutUpdateUser(c iris.Context) {
     c.ReadJSON(&update)
     err := models.PutUpdateUser(id, update)
     if err != nil {
-        c.StatusCode(http.StatusInternalServerError)
+        if err == errors.New("exceed authority") {
+            c.StatusCode(http.StatusBadRequest)
+            c.JSON("exceed authority")
+        } else {
+            c.StatusCode(http.StatusInternalServerError)
+        }
     } else {
         c.StatusCode(http.StatusOK)
         c.JSON("修改成功")
