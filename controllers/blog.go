@@ -13,7 +13,9 @@ import (
 // PostOnloadBlog 博文上传
 func PostOnloadBlog(c iris.Context) {
     id := utils.GetUUID("blog")
-    userId := c.URLParam("id")
+    var blog models.Blog
+    c.ReadJSON(&blog)
+    blog.BlogId = id
     file, _, err := c.FormFile("blog")
     if err != nil {
         c.StatusCode(http.StatusInternalServerError)
@@ -30,7 +32,7 @@ func PostOnloadBlog(c iris.Context) {
     }
     defer out.Close()
     io.Copy(out, file)
-    err = models.PostOnloadBlog(userId, id)
+    err = models.PostOnloadBlog(blog)
     if err != nil {
         c.StatusCode(http.StatusInternalServerError)
         c.JSON("上传失败")

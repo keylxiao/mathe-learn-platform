@@ -9,15 +9,14 @@ import (
 type Blog struct {
     UserId     string `gorm:"primary_key"` // 用户id
     BlogId     string // 博文id
+    BlogName   string // 博文名称
+    BriefIntro string // 博文简介
     CreateTime string // 创建时间
     UpdateTime string // 修改时间
 }
 
 // PostOnloadBlog 上传用户博文
-func PostOnloadBlog(userid, blogid string) error {
-    var blog Blog
-    blog.UserId = userid
-    blog.BlogId = blogid
+func PostOnloadBlog(blog Blog) error {
     blog.CreateTime = time.Now().Format("2006-01-02 15:04:05")
     blog.UpdateTime = time.Now().Format("2006-01-02 15:04:05")
     db := utils.DBOpen()
