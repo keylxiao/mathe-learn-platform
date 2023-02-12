@@ -6,10 +6,8 @@ import (
     "io"
     "mathe-learn-platform/config"
     "mathe-learn-platform/models"
-    "mathe-learn-platform/utils"
     "net/http"
     "os"
-    "time"
 )
 
 // PostUserRegister 用户注册
@@ -29,9 +27,6 @@ func PostUserRegister(c iris.Context) {
         c.JSON(only)
         return
     }
-    info.Id = utils.GetUUID("user")
-    info.CreateTime = time.Now().Format("2006-01-02 15:04:05")
-    info.UpdateTime = time.Now().Format("2006-01-02 15:04:05")
     err := models.PostUserRegister(info)
     if err != nil {
         c.StatusCode(http.StatusInternalServerError)
