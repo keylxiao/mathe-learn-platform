@@ -50,7 +50,7 @@ func BlogRouter(blog iris.Party) {
     // 博文权限修改
 
     // 查看用户博文目录
-
+    blog.Get("/UserBlogList", controllers.GetUserBlogList)
     // 查看具体博文
 }
 

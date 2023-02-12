@@ -32,3 +32,13 @@ func PostOnloadBlog(userid, blogid string) error {
     tx.Commit()
     return err
 }
+
+// GetUserBlogList 获取用户博文目录
+func GetUserBlogList(id string) ([]Blog, error) {
+    db := utils.DBOpen()
+    sqlDB, _ := db.DB()
+    defer sqlDB.Close()
+    var blog []Blog
+    err := db.Where("user_id = ?", id).Find(&blog).Error
+    return blog, err
+}

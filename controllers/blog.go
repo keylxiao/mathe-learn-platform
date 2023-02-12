@@ -39,3 +39,16 @@ func PostOnloadBlog(c iris.Context) {
     c.StatusCode(http.StatusOK)
     c.JSON("上传成功")
 }
+
+// GetUserBlogList 获取用户博文目录
+func GetUserBlogList(c iris.Context) {
+    id := c.URLParam("id")
+    info, err := models.GetUserBlogList(id)
+    if err != nil {
+        c.StatusCode(http.StatusInternalServerError)
+        return
+    } else {
+        c.StatusCode(http.StatusOK)
+        c.JSON(info)
+    }
+}
