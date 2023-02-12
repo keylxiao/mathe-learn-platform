@@ -28,7 +28,7 @@ func UserRouter(user iris.Party) {
     // 修改用户信息
     user.Put("/UpdateUser", controllers.PutUpdateUser)
     // 用户头像上传
-    user.Post("/OnloadIcon", controllers.PostLoadIcon)
+    user.Post("/OnloadIcon", controllers.PostOnloadIcon)
     // 用户请求发送验证码
     user.Get("/SendCode", controllers.GetSendCode)
     // 用户验证码验证
@@ -44,7 +44,7 @@ func WebsiteRouter(web iris.Party) {
 // BlogRouter 博文路由
 func BlogRouter(blog iris.Party) {
     // 博文上传
-
+    blog.Post("/OnloadBlog", controllers.PostOnloadBlog)
     // 博文修改
 
     // 博文权限修改

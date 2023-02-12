@@ -14,6 +14,8 @@ const (
     EmailCode string = "jzruajinzbyzhghj"
     // IconStorageAddress 用户头像存储地址
     IconStorageAddress string = "./UserImage/"
+    // BlogStorageAddress 用户博文存储地址
+    BlogStorageAddress string = "./Blog/"
 )
 
 // MySQL参数配置

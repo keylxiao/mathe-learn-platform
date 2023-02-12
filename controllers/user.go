@@ -133,8 +133,8 @@ func PutUpdateUser(c iris.Context) {
     }
 }
 
-// PostLoadIcon 上传用户头像
-func PostLoadIcon(c iris.Context) {
+// PostOnloadIcon 上传用户头像
+func PostOnloadIcon(c iris.Context) {
     userId := c.URLParam("id")
     file, _, err := c.FormFile("image")
     if err != nil {
