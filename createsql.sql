@@ -35,10 +35,25 @@ CREATE TABLE `users`
     `password`    varchar(20) DEFAULT NULL COMMENT '密码(sha1)',
     `user_name`   varchar(10) DEFAULT NULL COMMENT '用户名',
     `telephone`   varchar(11) DEFAULT NULL COMMENT '电话号码',
-    `mailbox` varchar(15) DEFAULT NULL COMMENT '邮箱地址',
+    `mailbox`     varchar(15) DEFAULT NULL COMMENT '邮箱地址',
     `status`      int         DEFAULT 2 COMMENT '用户权限',
     `college`     int         DEFAULT 1 COMMENT '学院',
     `major`       varchar(15) DEFAULT NULL COMMENT '专业',
+    `create_time` varchar(21) DEFAULT NULL COMMENT '创建时间',
+    `update_time` varchar(21) DEFAULT NULL COMMENT '修改时间'
+) charset utf8
+  collate utf8_general_ci;
+
+-- ----------------------------
+-- 博文信息数据表
+-- ----------------------------
+DROP TABLE IF EXISTS `blogs`;
+CREATE TABLE `blogs`
+(
+    `user_id`     varchar(32) DEFAULT NULL COMMENT '用户uid',
+    `blog_id`     varchar(32) DEFAULT NULL COMMENT '博文uid',
+    `blog_name`   varchar(15) DEFAULT NULL COMMENT '博文名称',
+    `brief_intro` varchar(20) DEFAULT NULL COMMENT '简介',
     `create_time` varchar(21) DEFAULT NULL COMMENT '创建时间',
     `update_time` varchar(21) DEFAULT NULL COMMENT '修改时间'
 ) charset utf8
