@@ -54,3 +54,34 @@ func GetUserBlogList(c iris.Context) {
         c.JSON(info)
     }
 }
+
+// PutUpdateBlog 修改博文
+func PutUpdateBlog(c iris.Context) {
+    id := c.URLParam("id")
+    rename := c.FormValue("name")
+    reintro := c.FormValue("intro")
+    err := models.PutUpdateBlog(id, rename, reintro)
+    if err != nil {
+        c.StatusCode(http.StatusInternalServerError)
+        c.JSON("修改失败")
+        return
+    }
+    file, _, err := c.FormFile("blog")
+    if err != nil {
+        c.StatusCode(http.StatusInternalServerError)
+        c.JSON("修改失败")
+        return
+    }
+    defer file.Close()
+    id = id + ".txt"
+    out, err := os.OpenFile(config.BlogStorageAddress+id, os.O_WRONLY|os.O_CREATE, 0666)
+    if err != nil {
+        c.StatusCode(http.StatusInternalServerError)
+        c.JSON("修改失败")
+        return
+    }
+    defer out.Close()
+    io.Copy(out, file)
+    c.StatusCode(http.StatusOK)
+    c.JSON("ok")
+}
