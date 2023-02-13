@@ -156,6 +156,7 @@ func PutUpdateUser(id string, update []UpdateUserInfo) (err error) {
     db := utils.DBOpen()
     sqlDB, _ := db.DB()
     defer sqlDB.Close()
+    tx := db.Begin()
     var user User
     for i := range update {
         if update[i].UpdateField == "Id" || update[i].UpdateField == "Status" || update[i].UpdateField == "CreateTime" {
@@ -166,7 +167,12 @@ func PutUpdateUser(id string, update []UpdateUserInfo) (err error) {
         } else {
             update[i].NewInfo = update[i].NewInfo.(string)
         }
-        err = db.Model(&user).Where("id = ?", id).Update(update[i].UpdateField, update[i].UpdateField).Error
+        err = tx.Model(&user).Where("id = ?", id).Update(update[i].UpdateField, update[i].NewInfo).Error
+        if err != nil {
+            tx.Rollback()
+            return
+        }
     }
+    tx.Commit()
     return
 }
