@@ -52,6 +52,7 @@ func BlogRouter(blog iris.Party) {
     // 查看用户博文目录
     blog.Get("/UserBlogList", controllers.GetUserBlogList)
     // 查看具体博文
+    blog.Get("/ViewBlog", controllers.GetViewBlog)
 }
 
 // PostBarRouter 贴吧路由

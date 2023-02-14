@@ -85,3 +85,11 @@ func PutUpdateBlog(c iris.Context) {
     c.StatusCode(http.StatusOK)
     c.JSON("ok")
 }
+
+// GetViewBlog 查看具体博文
+func GetViewBlog(c iris.Context) {
+    id := c.URLParam("id")
+    id = config.BlogStorageAddress + id + ".txt"
+    c.StatusCode(http.StatusOK)
+    c.SendFile(id, "blog.txt")
+}
