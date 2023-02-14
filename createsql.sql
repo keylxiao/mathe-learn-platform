@@ -54,6 +54,7 @@ CREATE TABLE `blogs`
     `blog_id`     varchar(32) DEFAULT NULL COMMENT '博文uid',
     `blog_name`   varchar(15) DEFAULT NULL COMMENT '博文名称',
     `brief_intro` varchar(20) DEFAULT NULL COMMENT '简介',
+    `state`       int DEFAULT 0 COMMENT '初始0 仅自己可见1 软删除2',
     `create_time` varchar(21) DEFAULT NULL COMMENT '创建时间',
     `update_time` varchar(21) DEFAULT NULL COMMENT '修改时间'
 ) charset utf8

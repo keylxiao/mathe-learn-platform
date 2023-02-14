@@ -11,6 +11,7 @@ type Blog struct {
     BlogId     string // 博文id
     BlogName   string // 博文名称
     BriefIntro string // 博文简介
+    State      string // 博文状态(初始0 仅自己可见1 软删除2)
     CreateTime string // 创建时间
     UpdateTime string // 修改时间
 }
@@ -38,7 +39,7 @@ func GetUserBlogList(id string) ([]Blog, error) {
     sqlDB, _ := db.DB()
     defer sqlDB.Close()
     var blog []Blog
-    err := db.Where("user_id = ?", id).Find(&blog).Error
+    err := db.Where("user_id = ?", id).Where("state = ?", 0).Find(&blog).Error
     return blog, err
 }
 
