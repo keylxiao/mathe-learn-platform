@@ -86,6 +86,19 @@ func PutUpdateBlog(c iris.Context) {
     c.JSON("ok")
 }
 
+// PutUpdateBlogState 修改博文状态
+func PutUpdateBlogState(c iris.Context) {
+    var info models.BlogState
+    c.ReadJSON(&info)
+    err := models.PutUpdateBlogState(info)
+    if err != nil {
+        c.StatusCode(http.StatusInternalServerError)
+    } else {
+        c.StatusCode(http.StatusOK)
+        c.JSON("ok")
+    }
+}
+
 // GetViewBlog 查看具体博文
 func GetViewBlog(c iris.Context) {
     id := c.URLParam("id")

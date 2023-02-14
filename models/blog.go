@@ -16,6 +16,12 @@ type Blog struct {
     UpdateTime string // 修改时间
 }
 
+// BlogState 修改博文状态结构体
+type BlogState struct {
+    BlogId   string //博文id
+    NewState int    // 新状态
+}
+
 // PostOnloadBlog 上传用户博文
 func PostOnloadBlog(blog Blog) error {
     blog.CreateTime = time.Now().Format("2006-01-02 15:04:05")
@@ -68,6 +74,22 @@ func PutUpdateBlog(id string, update ...string) error {
             tx.Rollback()
             return err
         }
+    }
+    tx.Commit()
+    return err
+}
+
+// PutUpdateBlogState 修改博文状态
+func PutUpdateBlogState(info BlogState) error {
+    var blog Blog
+    db := utils.DBOpen()
+    sqlDB, _ := db.DB()
+    defer sqlDB.Close()
+    tx := db.Begin()
+    err := db.Model(&blog).Where("blog_id = ?", info.BlogId).Update("state", info.NewState).Error
+    if err != nil {
+        tx.Rollback()
+        return err
     }
     tx.Commit()
     return err
