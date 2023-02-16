@@ -9,5 +9,5 @@ type Bar struct {
     CreateTime  string // 创建时间
     FloorNumber int    // 总盖楼数
     PageView    int    // 浏览量
-    LikesNuber  int    // 点赞数
+    LikesNumber int    // 点赞数
 }

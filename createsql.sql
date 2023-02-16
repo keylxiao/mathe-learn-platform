@@ -59,3 +59,21 @@ CREATE TABLE `blogs`
     `update_time` varchar(21) DEFAULT NULL COMMENT '修改时间'
 ) charset utf8
   collate utf8_general_ci;
+
+-- ----------------------------
+-- 帖子信息数据表
+-- ----------------------------
+DROP TABLE IF EXISTS `bars`;
+CREATE TABLE `bars`
+(
+    `id`     varchar(32) DEFAULT NULL COMMENT '帖子id',
+    `user_id`     varchar(32) DEFAULT NULL COMMENT '用户id',
+    `name`   varchar(15) DEFAULT NULL COMMENT '帖子名称',
+    `brief` varchar(30) DEFAULT NULL COMMENT '简介',
+    `create_time` varchar(21) DEFAULT NULL COMMENT '创建时间',
+    `update_time` varchar(21) DEFAULT NULL COMMENT '修改时间',
+    `floot_number` int DEFAULT 1 COMMENT '总盖楼数',
+    `page_view` int DEFAULT 1 COMMENT '浏览量',
+    `likes_Number` int DEFAULT 0 COMMENT '点赞数'
+) charset utf8
+  collate utf8_general_ci;
