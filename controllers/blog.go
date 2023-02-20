@@ -11,28 +11,46 @@ import (
 )
 
 // PostOnloadBlog 博文上传
+//func PostOnloadBlog(c iris.Context) {
+//    id := utils.GetUUID("blog")
+//    var blog models.Blog
+//    c.ReadJSON(&blog)
+//    blog.BlogId = id
+//    file, _, err := c.FormFile("blog")
+//    if err != nil {
+//        c.StatusCode(http.StatusInternalServerError)
+//        c.JSON("上传失败")
+//        return
+//    }
+//    defer file.Close()
+//    id = id + ".txt"
+//    out, err := os.OpenFile(config.BlogStorageAddress+id, os.O_WRONLY|os.O_CREATE, 0666)
+//    if err != nil {
+//        c.StatusCode(http.StatusInternalServerError)
+//        c.JSON("上传失败")
+//        return
+//    }
+//    defer out.Close()
+//    io.Copy(out, file)
+//    err = models.PostOnloadBlog(blog)
+//    if err != nil {
+//        c.StatusCode(http.StatusInternalServerError)
+//        c.JSON("上传失败")
+//        return
+//    }
+//    c.StatusCode(http.StatusOK)
+//    c.JSON("上传成功")
+//}
+
+// PostOnloadBlog 博文上传
 func PostOnloadBlog(c iris.Context) {
     id := utils.GetUUID("blog")
     var blog models.Blog
     c.ReadJSON(&blog)
     blog.BlogId = id
-    file, _, err := c.FormFile("blog")
-    if err != nil {
-        c.StatusCode(http.StatusInternalServerError)
-        c.JSON("上传失败")
-        return
-    }
-    defer file.Close()
-    id = id + ".txt"
-    out, err := os.OpenFile(config.BlogStorageAddress+id, os.O_WRONLY|os.O_CREATE, 0666)
-    if err != nil {
-        c.StatusCode(http.StatusInternalServerError)
-        c.JSON("上传失败")
-        return
-    }
-    defer out.Close()
-    io.Copy(out, file)
-    err = models.PostOnloadBlog(blog)
+    var blogbody string
+    c.ReadJSON(&blogbody)
+    err := models.PostOnloadBlog(blog, blogbody)
     if err != nil {
         c.StatusCode(http.StatusInternalServerError)
         c.JSON("上传失败")

@@ -1,6 +1,8 @@
 package models
 
 import (
+    "context"
+    "mathe-learn-platform/config"
     "mathe-learn-platform/utils"
     "time"
 )
@@ -23,7 +25,8 @@ type BlogState struct {
 }
 
 // PostOnloadBlog 上传用户博文
-func PostOnloadBlog(blog Blog) error {
+func PostOnloadBlog(blog Blog, body string) error {
+    // 信息部分存储
     blog.CreateTime = time.Now().Format("2006-01-02 15:04:05")
     blog.UpdateTime = time.Now().Format("2006-01-02 15:04:05")
     db := utils.DBOpen()
@@ -36,6 +39,12 @@ func PostOnloadBlog(blog Blog) error {
         return err
     }
     tx.Commit()
+    // 博文主体部分存储
+    client := utils.MongoOpen()
+    mongo := client.Database(config.MongoDBName)
+    collection := mongo.Collection(config.MongoTabName)
+    result, err := collection.InsertOne(context.TODO(), body)
+    result.InsertedID = blog.BlogId
     return err
 }
 

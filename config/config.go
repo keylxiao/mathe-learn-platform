@@ -52,4 +52,8 @@ const (
 const (
     // MongoAddress 数据库地址
     MongoAddress string = "mongodb://localhost:27017"
+    // MongoDBName 数据库名称
+    MongoDBName string = "mlp"
+    // MongoTabName 数据表名称
+    MongoTabName string = "blog"
 )
