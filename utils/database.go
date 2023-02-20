@@ -1,8 +1,11 @@
 package utils
 
 import (
+    "context"
     "fmt"
     "github.com/go-redis/redis"
+    "go.mongodb.org/mongo-driver/mongo"
+    "go.mongodb.org/mongo-driver/mongo/options"
     "gorm.io/driver/mysql"
     "gorm.io/gorm"
     "mathe-learn-platform/config"
@@ -28,4 +31,10 @@ func RedisOpen() *redis.Client {
         DB:       config.RedisName,
     })
     return rdb
+}
+
+// MongoOpen 打开MongoDB
+func MongoOpen() *mongo.Client {
+    client, _ := mongo.Connect(context.TODO(), options.Client().ApplyURI(config.MongoAddress))
+    return client
 }

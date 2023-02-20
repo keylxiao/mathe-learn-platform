@@ -47,3 +47,9 @@ const (
     // RedisName 数据库名称
     RedisName int = 0
 )
+
+// Mongo参数配置
+const (
+    // MongoAddress 数据库地址
+    MongoAddress string = "mongodb://localhost:27017"
+)
