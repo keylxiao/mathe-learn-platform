@@ -2,7 +2,6 @@ package controllers
 
 import (
     "github.com/kataras/iris/v12"
-    "mathe-learn-platform/config"
     "mathe-learn-platform/models"
     "mathe-learn-platform/utils"
     "net/http"
@@ -159,7 +158,11 @@ func PutUpdateBlogState(c iris.Context) {
 // GetViewBlog 查看具体博文
 func GetViewBlog(c iris.Context) {
     id := c.URLParam("id")
-    id = config.BlogStorageAddress + id + ".txt"
-    c.StatusCode(http.StatusOK)
-    c.SendFile(id, "blog.txt")
+    body, err := models.GetViewBlog(id)
+    if err != nil {
+        c.StatusCode(http.StatusInternalServerError)
+    } else {
+        c.StatusCode(http.StatusOK)
+        c.JSON(body)
+    }
 }

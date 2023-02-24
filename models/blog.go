@@ -124,3 +124,13 @@ func PutUpdateBlogState(info BlogState) error {
     tx.Commit()
     return err
 }
+
+// GetViewBlog 查看具体博文
+func GetViewBlog(id string) (string, error) {
+    var body BlogBody
+    client := utils.MongoOpen()
+    mongo := client.Database(config.MongoDBName)
+    collection := mongo.Collection(config.MongoTabName)
+    err := collection.FindOne(context.TODO(), bson.D{{"blogid", id}}).Decode(&body)
+    return body.Body, err
+}
