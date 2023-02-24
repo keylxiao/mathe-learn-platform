@@ -2,6 +2,7 @@ package models
 
 import (
     "context"
+    "go.mongodb.org/mongo-driver/bson"
     "mathe-learn-platform/config"
     "mathe-learn-platform/utils"
     "time"
@@ -100,12 +101,13 @@ func PutUpdateBlogInf(id string, update ...string) error {
 }
 
 // PutUpdateBlogBody 修改用户博文主体
-//func PutUpdateBlogBody(id, body string) error {
-//    client := utils.MongoOpen()
-//    mongo := client.Database(config.MongoDBName)
-//    collection := mongo.Collection(config.MongoTabName)
-//    result, err := collection.UpdateOne(context.TODO(), bson.D{{"_id", id}}, bson.D{{"$set", bson.D{{"email", "newemail@example.com"}}}})
-//}
+func PutUpdateBlogBody(body BlogBody) error {
+    client := utils.MongoOpen()
+    mongo := client.Database(config.MongoDBName)
+    collection := mongo.Collection(config.MongoTabName)
+    _, err := collection.UpdateOne(context.TODO(), bson.D{{"blogid", body.BlogId}}, bson.D{{"$set", bson.D{{"body", body.Body}}}})
+    return err
+}
 
 // PutUpdateBlogState 修改博文状态
 func PutUpdateBlogState(info BlogState) error {

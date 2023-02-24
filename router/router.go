@@ -47,8 +47,10 @@ func BlogRouter(blog iris.Party) {
     blog.Post("/OnloadBlogInf", controllers.PostOnloadBlogInf)
     // 博文主体上传
     blog.Post("/OnloadBlogBody", controllers.PostOnloadBlogBody)
-    // 博文修改
-    //blog.Put("/UpdateBlog", controllers.PutUpdateBlog)
+    // 博文信息修改
+    blog.Put("/UpdateBlogInf", controllers.PutUpdateBlogInf)
+    // 博文主体修改
+    blog.Put("/UpdateBlogBody", controllers.PutUpdateBlogBody)
     // 博文权限修改
     blog.Put("/UpdateBlogState", controllers.PutUpdateBlogState)
     // 查看用户博文目录

@@ -114,23 +114,34 @@ func GetUserBlogList(c iris.Context) {
 //    c.JSON("ok")
 //}
 
-// PutUpdateBlog 修改博文
-//func PutUpdateBlog(c iris.Context) {
-//    id := c.URLParam("id")
-//    rename := c.FormValue("name")
-//    reintro := c.FormValue("intro")
-//    err := models.PutUpdateBlogInf(id, rename, reintro)
-//    if err != nil {
-//        c.StatusCode(http.StatusInternalServerError)
-//        c.JSON("修改失败")
-//        return
-//    }
-//    var blogbody string
-//    c.ReadJSON(&blogbody)
-//    err := models.PutUpdateBlogBody(id, blogbody)
-//    c.StatusCode(http.StatusOK)
-//    c.JSON("ok")
-//}
+// PutUpdateBlogInf 修改博文信息
+func PutUpdateBlogInf(c iris.Context) {
+    id := c.URLParam("id")
+    rename := c.FormValue("name")
+    reintro := c.FormValue("intro")
+    err := models.PutUpdateBlogInf(id, rename, reintro)
+    if err != nil {
+        c.StatusCode(http.StatusInternalServerError)
+        c.JSON("修改失败")
+        return
+    }
+    c.StatusCode(http.StatusOK)
+    c.JSON("ok")
+}
+
+// PutUpdateBlogBody 修改博文主体
+func PutUpdateBlogBody(c iris.Context) {
+    var body models.BlogBody
+    c.ReadJSON(&body)
+    err := models.PutUpdateBlogBody(body)
+    if err != nil {
+        c.StatusCode(http.StatusInternalServerError)
+        c.JSON("修改失败")
+        return
+    }
+    c.StatusCode(http.StatusOK)
+    c.JSON("ok")
+}
 
 // PutUpdateBlogState 修改博文状态
 func PutUpdateBlogState(c iris.Context) {
