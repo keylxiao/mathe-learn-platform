@@ -2,12 +2,10 @@ package controllers
 
 import (
     "github.com/kataras/iris/v12"
-    "io"
     "mathe-learn-platform/config"
     "mathe-learn-platform/models"
     "mathe-learn-platform/utils"
     "net/http"
-    "os"
 )
 
 // PostOnloadBlog 博文上传
@@ -42,15 +40,27 @@ import (
 //    c.JSON("上传成功")
 //}
 
-// PostOnloadBlog 博文上传
-func PostOnloadBlog(c iris.Context) {
+// PostOnloadBlogInf 博文信息上传
+func PostOnloadBlogInf(c iris.Context) {
     id := utils.GetUUID("blog")
     var blog models.Blog
     c.ReadJSON(&blog)
     blog.BlogId = id
-    var blogbody string
-    c.ReadJSON(&blogbody)
-    err := models.PostOnloadBlog(blog, blogbody)
+    err := models.PostOnloadBlogInf(blog)
+    if err != nil {
+        c.StatusCode(http.StatusInternalServerError)
+        c.JSON("上传失败")
+        return
+    }
+    c.StatusCode(http.StatusOK)
+    c.JSON(id)
+}
+
+// PostOnloadBlogBody 博文主体上传
+func PostOnloadBlogBody(c iris.Context) {
+    var body models.BlogBody
+    c.ReadJSON(&body)
+    err := models.PostOnloadBlogBody(body)
     if err != nil {
         c.StatusCode(http.StatusInternalServerError)
         c.JSON("上传失败")
@@ -73,36 +83,54 @@ func GetUserBlogList(c iris.Context) {
     }
 }
 
+//// PutUpdateBlog 修改博文
+//func PutUpdateBlog(c iris.Context) {
+//    id := c.URLParam("id")
+//    rename := c.FormValue("name")
+//    reintro := c.FormValue("intro")
+//    err := models.PutUpdateBlog(id, rename, reintro)
+//    if err != nil {
+//        c.StatusCode(http.StatusInternalServerError)
+//        c.JSON("修改失败")
+//        return
+//    }
+//    file, _, err := c.FormFile("blog")
+//    if err != nil {
+//        c.StatusCode(http.StatusInternalServerError)
+//        c.JSON("修改失败")
+//        return
+//    }
+//    defer file.Close()
+//    id = id + ".txt"
+//    out, err := os.OpenFile(config.BlogStorageAddress+id, os.O_WRONLY|os.O_CREATE, 0666)
+//    if err != nil {
+//        c.StatusCode(http.StatusInternalServerError)
+//        c.JSON("修改失败")
+//        return
+//    }
+//    defer out.Close()
+//    io.Copy(out, file)
+//    c.StatusCode(http.StatusOK)
+//    c.JSON("ok")
+//}
+
 // PutUpdateBlog 修改博文
-func PutUpdateBlog(c iris.Context) {
-    id := c.URLParam("id")
-    rename := c.FormValue("name")
-    reintro := c.FormValue("intro")
-    err := models.PutUpdateBlog(id, rename, reintro)
-    if err != nil {
-        c.StatusCode(http.StatusInternalServerError)
-        c.JSON("修改失败")
-        return
-    }
-    file, _, err := c.FormFile("blog")
-    if err != nil {
-        c.StatusCode(http.StatusInternalServerError)
-        c.JSON("修改失败")
-        return
-    }
-    defer file.Close()
-    id = id + ".txt"
-    out, err := os.OpenFile(config.BlogStorageAddress+id, os.O_WRONLY|os.O_CREATE, 0666)
-    if err != nil {
-        c.StatusCode(http.StatusInternalServerError)
-        c.JSON("修改失败")
-        return
-    }
-    defer out.Close()
-    io.Copy(out, file)
-    c.StatusCode(http.StatusOK)
-    c.JSON("ok")
-}
+//func PutUpdateBlog(c iris.Context) {
+//    id := c.URLParam("id")
+//    rename := c.FormValue("name")
+//    reintro := c.FormValue("intro")
+//    err := models.PutUpdateBlogInf(id, rename, reintro)
+//    if err != nil {
+//        c.StatusCode(http.StatusInternalServerError)
+//        c.JSON("修改失败")
+//        return
+//    }
+//    var blogbody string
+//    c.ReadJSON(&blogbody)
+//    err := models.PutUpdateBlogBody(id, blogbody)
+//    c.StatusCode(http.StatusOK)
+//    c.JSON("ok")
+//}
 
 // PutUpdateBlogState 修改博文状态
 func PutUpdateBlogState(c iris.Context) {

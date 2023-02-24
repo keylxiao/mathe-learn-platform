@@ -43,10 +43,12 @@ func WebsiteRouter(web iris.Party) {
 
 // BlogRouter 博文路由
 func BlogRouter(blog iris.Party) {
-    // 博文上传
-    blog.Post("/OnloadBlog", controllers.PostOnloadBlog)
+    // 博文信息上传
+    blog.Post("/OnloadBlogInf", controllers.PostOnloadBlogInf)
+    // 博文主体上传
+    blog.Post("/OnloadBlogBody", controllers.PostOnloadBlogBody)
     // 博文修改
-    blog.Put("/UpdateBlog", controllers.PutUpdateBlog)
+    //blog.Put("/UpdateBlog", controllers.PutUpdateBlog)
     // 博文权限修改
     blog.Put("/UpdateBlogState", controllers.PutUpdateBlogState)
     // 查看用户博文目录

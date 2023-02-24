@@ -13,9 +13,16 @@ type Blog struct {
     BlogId     string // 博文id
     BlogName   string // 博文名称
     BriefIntro string // 博文简介
-    State      string // 博文状态(初始0 仅自己可见1 软删除2)
+    State      int    // 博文状态(初始0 仅自己可见1 软删除2)
     CreateTime string // 创建时间
     UpdateTime string // 修改时间
+}
+
+// BlogBody 博文主体
+type BlogBody struct {
+    BlogId string // 博文id
+    Body   string // 博文主体
+
 }
 
 // BlogState 修改博文状态结构体
@@ -24,8 +31,8 @@ type BlogState struct {
     NewState int    // 新状态
 }
 
-// PostOnloadBlog 上传用户博文
-func PostOnloadBlog(blog Blog, body string) error {
+// PostOnloadBlogInf 上传用户博文信息
+func PostOnloadBlogInf(blog Blog) error {
     // 信息部分存储
     blog.CreateTime = time.Now().Format("2006-01-02 15:04:05")
     blog.UpdateTime = time.Now().Format("2006-01-02 15:04:05")
@@ -39,12 +46,16 @@ func PostOnloadBlog(blog Blog, body string) error {
         return err
     }
     tx.Commit()
+    return err
+}
+
+// PostOnloadBlogBody 上传用户博文主体
+func PostOnloadBlogBody(body BlogBody) error {
     // 博文主体部分存储
     client := utils.MongoOpen()
     mongo := client.Database(config.MongoDBName)
     collection := mongo.Collection(config.MongoTabName)
-    result, err := collection.InsertOne(context.TODO(), body)
-    result.InsertedID = blog.BlogId
+    _, err := collection.InsertOne(context.TODO(), body)
     return err
 }
 
@@ -58,8 +69,8 @@ func GetUserBlogList(id string) ([]Blog, error) {
     return blog, err
 }
 
-// PutUpdateBlog 修改用户博文信息
-func PutUpdateBlog(id string, update ...string) error {
+// PutUpdateBlogInf 修改用户博文信息
+func PutUpdateBlogInf(id string, update ...string) error {
     var blog Blog
     db := utils.DBOpen()
     sqlDB, _ := db.DB()
@@ -87,6 +98,14 @@ func PutUpdateBlog(id string, update ...string) error {
     tx.Commit()
     return err
 }
+
+// PutUpdateBlogBody 修改用户博文主体
+//func PutUpdateBlogBody(id, body string) error {
+//    client := utils.MongoOpen()
+//    mongo := client.Database(config.MongoDBName)
+//    collection := mongo.Collection(config.MongoTabName)
+//    result, err := collection.UpdateOne(context.TODO(), bson.D{{"_id", id}}, bson.D{{"$set", bson.D{{"email", "newemail@example.com"}}}})
+//}
 
 // PutUpdateBlogState 修改博文状态
 func PutUpdateBlogState(info BlogState) error {
