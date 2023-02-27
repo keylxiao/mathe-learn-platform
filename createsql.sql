@@ -54,7 +54,7 @@ CREATE TABLE `blogs`
     `blog_id`     varchar(32) DEFAULT NULL COMMENT '博文uid',
     `blog_name`   varchar(15) DEFAULT NULL COMMENT '博文名称',
     `brief_intro` varchar(20) DEFAULT NULL COMMENT '简介',
-    `state`       int DEFAULT 0 COMMENT '初始0 仅自己可见1 软删除2',
+    `state`       int         DEFAULT 0 COMMENT '初始0 仅自己可见1 软删除2',
     `create_time` varchar(21) DEFAULT NULL COMMENT '创建时间',
     `update_time` varchar(21) DEFAULT NULL COMMENT '修改时间'
 ) charset utf8
@@ -66,14 +66,44 @@ CREATE TABLE `blogs`
 DROP TABLE IF EXISTS `bars`;
 CREATE TABLE `bars`
 (
-    `id`     varchar(32) DEFAULT NULL COMMENT '帖子id',
-    `user_id`     varchar(32) DEFAULT NULL COMMENT '用户id',
-    `name`   varchar(15) DEFAULT NULL COMMENT '帖子名称',
-    `brief` varchar(30) DEFAULT NULL COMMENT '简介',
-    `create_time` varchar(21) DEFAULT NULL COMMENT '创建时间',
-    `update_time` varchar(21) DEFAULT NULL COMMENT '修改时间',
-    `floot_number` int DEFAULT 1 COMMENT '总盖楼数',
-    `page_view` int DEFAULT 1 COMMENT '浏览量',
-    `likes_Number` int DEFAULT 0 COMMENT '点赞数'
+    `id`           varchar(32) DEFAULT NULL COMMENT '帖子id',
+    `user_id`      varchar(32) DEFAULT NULL COMMENT '用户id',
+    `name`         varchar(15) DEFAULT NULL COMMENT '帖子名称',
+    `brief`        varchar(30) DEFAULT NULL COMMENT '简介',
+    `create_time`  varchar(21) DEFAULT NULL COMMENT '创建时间',
+    `update_time`  varchar(21) DEFAULT NULL COMMENT '修改时间',
+    `floot_number` int         DEFAULT 1 COMMENT '总盖楼数',
+    `page_view`    int         DEFAULT 1 COMMENT '浏览量',
+    `likes_Number` int         DEFAULT 0 COMMENT '点赞数'
+) charset utf8
+  collate utf8_general_ci;
+
+-- ----------------------------
+-- 楼层信息数据表
+-- ----------------------------
+DROP TABLE IF EXISTS `bar_floors`;
+CREATE TABLE `bar_floors`
+(
+    `id`             varchar(32) DEFAULT NULL COMMENT '楼层id',
+    `user_id`        varchar(32) DEFAULT NULL COMMENT '用户id',
+    `create_time`    varchar(21) DEFAULT NULL COMMENT '创建时间',
+    `floot_number`   int         DEFAULT 1 COMMENT '楼层数',
+    `likes_Number`   int         DEFAULT 0 COMMENT '点赞数',
+    `SonFloorNumber` int         DEFAULT 0 COMMENT '楼中楼数'
+) charset utf8
+  collate utf8_general_ci;
+
+-- ----------------------------
+-- 楼中楼信息数据表
+-- ----------------------------
+DROP TABLE IF EXISTS `son_floors`;
+CREATE TABLE `son_floors`
+(
+    `id`           varchar(32) DEFAULT NULL COMMENT '楼中楼id',
+    `user_id`      varchar(32) DEFAULT NULL COMMENT '用户id',
+    `reply_id`      varchar(32) DEFAULT NULL COMMENT '回复楼中楼id',
+    `create_time`  varchar(21) DEFAULT NULL COMMENT '创建时间',
+    `floot_number` int         DEFAULT 1 COMMENT '楼中楼楼层数',
+    `likes_Number` int         DEFAULT 0 COMMENT '点赞数'
 ) charset utf8
   collate utf8_general_ci;
