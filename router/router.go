@@ -62,14 +62,16 @@ func BlogRouter(blog iris.Party) {
 // PostBarRouter 贴吧路由
 func PostBarRouter(bar iris.Party) {
     // 发布新帖
-    bar.Post("PublishBar", controllers.PostPublishBar)
+    bar.Post("/PublishBar", controllers.PostPublishBar)
     // 回复帖子
-    bar.Post("ReplyBar", controllers.PostReplyBar)
+    bar.Post("/ReplyBar", controllers.PostReplyBar)
     // 楼中楼
-    bar.Post("ReplyBarFloor", controllers.PostReplyBarFloor)
+    bar.Post("/ReplyBarFloor", controllers.PostReplyBarFloor)
     // 点赞统一接口
-    bar.Put("BarLikes", controllers.PutBarLikes)
+    bar.Put("/BarLikes", controllers.PutBarLikes)
     // 消息盒子
 
+    // 查看帖子
+    bar.Get("/ViewBar", controllers.GetViewBar)
     // 删除帖子
 }

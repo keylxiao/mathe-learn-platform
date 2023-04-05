@@ -54,6 +54,8 @@ const (
     MongoAddress string = "mongodb://localhost:27017"
     // MongoDBName 数据库名称
     MongoDBName string = "mlp"
-    // MongoTabName 数据表名称
-    MongoTabName string = "blog"
+    // MongoBlogTabName 博客数据表名称
+    MongoBlogTabName string = "blog"
+    // MongoBarTabName 帖子数据表名称
+    MongoBarTabName string = "bar"
 )

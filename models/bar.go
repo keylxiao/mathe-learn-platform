@@ -1,7 +1,10 @@
 package models
 
 import (
+    "context"
+    "go.mongodb.org/mongo-driver/bson"
     "gorm.io/gorm"
+    "mathe-learn-platform/config"
     "mathe-learn-platform/utils"
     "time"
 )
@@ -32,6 +35,7 @@ type BarFloor struct {
 // SonFloor 楼中楼信息
 type SonFloor struct {
     Id          string // 楼中楼id
+    BarId       string // 所属帖子id
     BarFloorId  string // 所属楼层id
     Userid      string // 用户id
     ReplyId     string // 回复楼中楼id, 空则为回复所在楼层
@@ -43,6 +47,21 @@ type SonFloor struct {
 type Likes struct {
     Id       string // id
     Classify string //更新点赞的目标类型
+}
+
+// ReplyBody 楼层及楼中楼回复主体
+type ReplyBody struct {
+    Id    string // id
+    Reply string // 回复信息
+}
+
+// BarBody 帖子主体
+type BarBody struct {
+    Bar           Bar         //帖子信息
+    BarFloor      []BarFloor  // 楼层信息
+    SonFloor      []SonFloor  // 楼中楼信息
+    BarFloorReply []ReplyBody // 楼层回复主体
+    SonFloorReply []ReplyBody // 楼中楼回复主体
 }
 
 // PostPublishBar 发布新帖
@@ -114,4 +133,23 @@ func PutBarLikes(like Likes) error {
     }
     tx.Commit()
     return err
+}
+
+// GetViewBar 查看帖子
+func GetViewBar(id string) (BarBody, error) {
+    var body BarBody
+    // mysql获取信息
+    db := utils.DBOpen()
+    sqlDB, _ := db.DB()
+    defer sqlDB.Close()
+    err := db.Where("id = ?", id).Find(&body.Bar).Error
+    err = db.Where("bar_id = ?", id).Find(&body.BarFloor).Error
+    err = db.Where("bar_id = ?", id).Find(&body.SonFloor).Error
+    // mongodb获取主体
+    client := utils.MongoOpen()
+    mongo := client.Database(config.MongoDBName)
+    collection := mongo.Collection(config.MongoBarTabName)
+    err = collection.FindOne(context.TODO(), bson.D{{"id", id}}).Decode(&body.BarFloorReply)
+    err = collection.FindOne(context.TODO(), bson.D{{"id", id}}).Decode(&body.SonFloorReply)
+    return body, err
 }

@@ -64,3 +64,15 @@ func PutBarLikes(c iris.Context) {
     }
     c.StatusCode(http.StatusOK)
 }
+
+// GetViewBar 查看帖子
+func GetViewBar(c iris.Context) {
+    id := c.URLParam("id")
+    body, err := models.GetViewBar(id)
+    if err != nil {
+        c.StatusCode(http.StatusInternalServerError)
+    } else {
+        c.StatusCode(http.StatusOK)
+        c.JSON(body)
+    }
+}

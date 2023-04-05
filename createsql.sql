@@ -100,6 +100,7 @@ DROP TABLE IF EXISTS `son_floors`;
 CREATE TABLE `son_floors`
 (
     `id`           varchar(32) DEFAULT NULL COMMENT '楼中楼id',
+    `bar_id`         varchar(32) DEFAULT NULL COMMENT '所属帖子id',
     `bar_floor_id`      varchar(32) DEFAULT NULL COMMENT '所属楼层id',
     `user_id`      varchar(32) DEFAULT NULL COMMENT '用户id',
     `reply_id`     varchar(32) DEFAULT NULL COMMENT '回复楼中楼id',

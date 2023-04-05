@@ -55,7 +55,7 @@ func PostOnloadBlogBody(body BlogBody) error {
     // 博文主体部分存储
     client := utils.MongoOpen()
     mongo := client.Database(config.MongoDBName)
-    collection := mongo.Collection(config.MongoTabName)
+    collection := mongo.Collection(config.MongoBlogTabName)
     _, err := collection.InsertOne(context.TODO(), body)
     return err
 }
@@ -104,7 +104,7 @@ func PutUpdateBlogInf(id string, update ...string) error {
 func PutUpdateBlogBody(body BlogBody) error {
     client := utils.MongoOpen()
     mongo := client.Database(config.MongoDBName)
-    collection := mongo.Collection(config.MongoTabName)
+    collection := mongo.Collection(config.MongoBlogTabName)
     _, err := collection.UpdateOne(context.TODO(), bson.D{{"blogid", body.BlogId}}, bson.D{{"$set", bson.D{{"body", body.Body}}}})
     return err
 }
@@ -130,7 +130,7 @@ func GetViewBlog(id string) (string, error) {
     var body BlogBody
     client := utils.MongoOpen()
     mongo := client.Database(config.MongoDBName)
-    collection := mongo.Collection(config.MongoTabName)
+    collection := mongo.Collection(config.MongoBlogTabName)
     err := collection.FindOne(context.TODO(), bson.D{{"blogid", id}}).Decode(&body)
     return body.Body, err
 }
