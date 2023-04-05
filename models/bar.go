@@ -100,7 +100,7 @@ func PostReplyBarInf(barfloor BarFloor) error {
 func PostReplyBarBody(body ReplyBody) error {
     client := utils.MongoOpen()
     mongo := client.Database(config.MongoDBName)
-    collection := mongo.Collection(config.MongoBlogTabName)
+    collection := mongo.Collection(config.MongoBarTabName)
     _, err := collection.InsertOne(context.TODO(), body)
     return err
 }
@@ -125,7 +125,7 @@ func PostReplyBarFloorInf(sonfloor SonFloor) error {
 func PostReplyBarFloorBody(body ReplyBody) error {
     client := utils.MongoOpen()
     mongo := client.Database(config.MongoDBName)
-    collection := mongo.Collection(config.MongoBlogTabName)
+    collection := mongo.Collection(config.MongoBarTabName)
     _, err := collection.InsertOne(context.TODO(), body)
     return err
 }
