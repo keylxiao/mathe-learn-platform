@@ -1,5 +1,10 @@
 package models
 
+import (
+    "mathe-learn-platform/utils"
+    "time"
+)
+
 // Bar 帖子信息
 type Bar struct {
     Id          string // 帖子id
@@ -31,4 +36,52 @@ type SonFloor struct {
     ReplyId     string // 回复楼中楼id, 空则为回复所在楼层
     CreateTime  string // 创建时间
     LikesNumber int    // 点赞数
+}
+
+// PostPublishBar 发布新帖
+func PostPublishBar(bar Bar) error {
+    bar.CreateTime = time.Now().Format("2006-01-02 15:04:05")
+    db := utils.DBOpen()
+    sqlDB, _ := db.DB()
+    defer sqlDB.Close()
+    tx := db.Begin()
+    err := tx.Create(&bar).Error
+    if err != nil {
+        tx.Rollback()
+        return err
+    }
+    tx.Commit()
+    return err
+}
+
+// PostReplyBar 回复帖子
+func PostReplyBar(barfloor BarFloor) error {
+    barfloor.CreateTime = time.Now().Format("2006-01-02 15:04:05")
+    db := utils.DBOpen()
+    sqlDB, _ := db.DB()
+    defer sqlDB.Close()
+    tx := db.Begin()
+    err := tx.Create(&barfloor).Error
+    if err != nil {
+        tx.Rollback()
+        return err
+    }
+    tx.Commit()
+    return err
+}
+
+// PostReplyBarFloor 楼中楼
+func PostReplyBarFloor(sonfloor SonFloor) error {
+    sonfloor.CreateTime = time.Now().Format("2006-01-02 15:04:05")
+    db := utils.DBOpen()
+    sqlDB, _ := db.DB()
+    defer sqlDB.Close()
+    tx := db.Begin()
+    err := tx.Create(&sonfloor).Error
+    if err != nil {
+        tx.Rollback()
+        return err
+    }
+    tx.Commit()
+    return err
 }

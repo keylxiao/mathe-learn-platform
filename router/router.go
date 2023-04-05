@@ -62,8 +62,12 @@ func BlogRouter(blog iris.Party) {
 // PostBarRouter 贴吧路由
 func PostBarRouter(bar iris.Party) {
     // 发布新帖
-
+    bar.Post("PublishBar", controllers.PostPublishBar)
     // 回复帖子
+    bar.Post("ReplyBar", controllers.PostReplyBar)
+    // 楼中楼
+    bar.Post("ReplyBarFloor", controllers.PostReplyBarFloor)
+    // 查看楼层
 
     // 消息盒子
 
