@@ -14,6 +14,6 @@ type OutsideWeb struct {
 func GetWebsiteByKW(kw string) ([]OutsideWeb, error) {
     var info []OutsideWeb
     db := utils.DBOpen()
-    err := db.Where("name LIKE ?", kw).Or("class LIKE ?", kw).Or("brief_intro LIKE ?", kw).Find(&info).Error
+    err := db.Where("name LIKE ?", "%"+kw+"%").Or("class LIKE ?", "%"+kw+"%").Or("brief_intro LIKE ?", "%"+kw+"%").Find(&info).Error
     return info, err
 }
