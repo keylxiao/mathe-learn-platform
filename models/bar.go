@@ -1,6 +1,7 @@
 package models
 
 import (
+    "gorm.io/gorm"
     "mathe-learn-platform/utils"
     "time"
 )
@@ -36,6 +37,12 @@ type SonFloor struct {
     ReplyId     string // 回复楼中楼id, 空则为回复所在楼层
     CreateTime  string // 创建时间
     LikesNumber int    // 点赞数
+}
+
+// Likes 点赞更新
+type Likes struct {
+    Id       string // id
+    Classify string //更新点赞的目标类型
 }
 
 // PostPublishBar 发布新帖
@@ -78,6 +85,29 @@ func PostReplyBarFloor(sonfloor SonFloor) error {
     defer sqlDB.Close()
     tx := db.Begin()
     err := tx.Create(&sonfloor).Error
+    if err != nil {
+        tx.Rollback()
+        return err
+    }
+    tx.Commit()
+    return err
+}
+
+// PutBarLikes 点赞统一接口
+func PutBarLikes(like Likes) error {
+    db := utils.DBOpen()
+    sqlDB, _ := db.DB()
+    defer sqlDB.Close()
+    tx := db.Begin()
+    var err error
+    switch like.Classify {
+    case "bar":
+        err = tx.Model(&Bar{}).Where("id", like.Id).Update("likes_number", gorm.Expr("likes_number + ?", 1)).Error
+    case "barfloor":
+        err = tx.Model(&BarFloor{}).Where("id", like.Id).Update("likes_number", gorm.Expr("likes_number + ?", 1)).Error
+    case "sonfloor":
+        err = tx.Model(&SonFloor{}).Where("id", like.Id).Update("likes_number", gorm.Expr("likes_number + ?", 1)).Error
+    }
     if err != nil {
         tx.Rollback()
         return err

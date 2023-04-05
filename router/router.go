@@ -67,8 +67,8 @@ func PostBarRouter(bar iris.Party) {
     bar.Post("ReplyBar", controllers.PostReplyBar)
     // 楼中楼
     bar.Post("ReplyBarFloor", controllers.PostReplyBarFloor)
-    // 查看楼层
-
+    // 点赞统一接口
+    bar.Put("BarLikes", controllers.PutBarLikes)
     // 消息盒子
 
     // 删除帖子

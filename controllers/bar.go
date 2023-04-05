@@ -20,7 +20,6 @@ func PostPublishBar(c iris.Context) {
         return
     }
     c.StatusCode(http.StatusOK)
-    c.JSON(id)
 }
 
 // PostReplyBar 回复帖子
@@ -36,7 +35,6 @@ func PostReplyBar(c iris.Context) {
         return
     }
     c.StatusCode(http.StatusOK)
-    c.JSON(id)
 }
 
 // PostReplyBarFloor 楼中楼
@@ -52,5 +50,17 @@ func PostReplyBarFloor(c iris.Context) {
         return
     }
     c.StatusCode(http.StatusOK)
-    c.JSON(id)
+}
+
+// PutBarLikes 点赞统一接口
+func PutBarLikes(c iris.Context) {
+    var like models.Likes
+    c.ReadJSON(&like)
+    err := models.PutBarLikes(like)
+    if err != nil {
+        c.StatusCode(http.StatusInternalServerError)
+        c.JSON("点赞失败")
+        return
+    }
+    c.StatusCode(http.StatusOK)
 }
