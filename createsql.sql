@@ -68,10 +68,10 @@ CREATE TABLE `bars`
 (
     `id`           varchar(32) DEFAULT NULL COMMENT '帖子id',
     `user_id`      varchar(32) DEFAULT NULL COMMENT '用户id',
+    `classify`     varchar(5)  DEFAULT NULL COMMENT '分类',
     `name`         varchar(15) DEFAULT NULL COMMENT '帖子名称',
     `brief`        varchar(30) DEFAULT NULL COMMENT '简介',
     `create_time`  varchar(21) DEFAULT NULL COMMENT '创建时间',
-    `update_time`  varchar(21) DEFAULT NULL COMMENT '修改时间',
     `floot_number` int         DEFAULT 1 COMMENT '总盖楼数',
     `page_view`    int         DEFAULT 1 COMMENT '浏览量',
     `likes_Number` int         DEFAULT 0 COMMENT '点赞数'
@@ -85,9 +85,9 @@ DROP TABLE IF EXISTS `bar_floors`;
 CREATE TABLE `bar_floors`
 (
     `id`             varchar(32) DEFAULT NULL COMMENT '楼层id',
+    `bar_id`         varchar(32) DEFAULT NULL COMMENT '所属帖子id',
     `user_id`        varchar(32) DEFAULT NULL COMMENT '用户id',
     `create_time`    varchar(21) DEFAULT NULL COMMENT '创建时间',
-    `floot_number`   int         DEFAULT 1 COMMENT '楼层数',
     `likes_Number`   int         DEFAULT 0 COMMENT '点赞数',
     `SonFloorNumber` int         DEFAULT 0 COMMENT '楼中楼数'
 ) charset utf8
@@ -100,10 +100,10 @@ DROP TABLE IF EXISTS `son_floors`;
 CREATE TABLE `son_floors`
 (
     `id`           varchar(32) DEFAULT NULL COMMENT '楼中楼id',
+    `bar_floor_id`      varchar(32) DEFAULT NULL COMMENT '所属楼层id',
     `user_id`      varchar(32) DEFAULT NULL COMMENT '用户id',
-    `reply_id`      varchar(32) DEFAULT NULL COMMENT '回复楼中楼id',
+    `reply_id`     varchar(32) DEFAULT NULL COMMENT '回复楼中楼id',
     `create_time`  varchar(21) DEFAULT NULL COMMENT '创建时间',
-    `floot_number` int         DEFAULT 1 COMMENT '楼中楼楼层数',
     `likes_Number` int         DEFAULT 0 COMMENT '点赞数'
 ) charset utf8
   collate utf8_general_ci;
