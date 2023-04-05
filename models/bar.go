@@ -4,6 +4,7 @@ package models
 type Bar struct {
     Id          string // 帖子id
     UserId      string // 用户id
+    Classify    string // 分类
     Name        string // 帖子名称
     Brief       string // 简介
     CreateTime  string // 创建时间
@@ -15,9 +16,9 @@ type Bar struct {
 // BarFloor 楼层信息
 type BarFloor struct {
     Id             string // 楼层id
+    BarId          string // 所属帖子id
     UserId         string // 用户id
     CreateTime     string // 创建时间
-    FloorNumber    int    // 楼层数
     LikesNumber    int    // 点赞数
     SonFloorNumber int    // 楼中楼数
 }
@@ -25,9 +26,9 @@ type BarFloor struct {
 // SonFloor 楼中楼信息
 type SonFloor struct {
     Id          string // 楼中楼id
+    BarFloorId  string // 所属楼层id
     Userid      string // 用户id
     ReplyId     string // 回复楼中楼id, 空则为回复所在楼层
     CreateTime  string // 创建时间
-    FloorNumber int    // 楼中楼楼层数
     LikesNumber int    // 点赞数
 }
