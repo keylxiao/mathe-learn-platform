@@ -22,34 +22,64 @@ func PostPublishBar(c iris.Context) {
     c.StatusCode(http.StatusOK)
 }
 
-// PostReplyBar 回复帖子
-func PostReplyBar(c iris.Context) {
+// PostReplyBarInf 楼层信息
+func PostReplyBarInf(c iris.Context) {
     id := utils.GetUUID("barfloor")
     var barfloor models.BarFloor
     c.ReadJSON(&barfloor)
     barfloor.Id = id
-    err := models.PostReplyBar(barfloor)
+    err := models.PostReplyBarInf(barfloor)
     if err != nil {
         c.StatusCode(http.StatusInternalServerError)
         c.JSON("上传失败")
         return
     }
     c.StatusCode(http.StatusOK)
+    c.JSON(id)
 }
 
-// PostReplyBarFloor 楼中楼
-func PostReplyBarFloor(c iris.Context) {
+// PostReplyBarBody 楼层主体
+func PostReplyBarBody(c iris.Context) {
+    var body models.ReplyBody
+    c.ReadJSON(&body)
+    err := models.PostReplyBarBody(body)
+    if err != nil {
+        c.StatusCode(http.StatusInternalServerError)
+        c.JSON("上传失败")
+        return
+    }
+    c.StatusCode(http.StatusOK)
+    c.JSON("上传成功")
+}
+
+// PostReplyBarFloorInf 楼中楼信息
+func PostReplyBarFloorInf(c iris.Context) {
     id := utils.GetUUID("sonfloor")
     var son models.SonFloor
     c.ReadJSON(&son)
     son.Id = id
-    err := models.PostReplyBarFloor(son)
+    err := models.PostReplyBarFloorInf(son)
     if err != nil {
         c.StatusCode(http.StatusInternalServerError)
         c.JSON("上传失败")
         return
     }
     c.StatusCode(http.StatusOK)
+    c.JSON(id)
+}
+
+// PostReplyBarFloorBody 楼层主体
+func PostReplyBarFloorBody(c iris.Context) {
+    var body models.ReplyBody
+    c.ReadJSON(&body)
+    err := models.PostReplyBarFloorBody(body)
+    if err != nil {
+        c.StatusCode(http.StatusInternalServerError)
+        c.JSON("上传失败")
+        return
+    }
+    c.StatusCode(http.StatusOK)
+    c.JSON("上传成功")
 }
 
 // PutBarLikes 点赞统一接口

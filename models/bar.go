@@ -80,8 +80,8 @@ func PostPublishBar(bar Bar) error {
     return err
 }
 
-// PostReplyBar 回复帖子
-func PostReplyBar(barfloor BarFloor) error {
+// PostReplyBarInf 楼层信息
+func PostReplyBarInf(barfloor BarFloor) error {
     barfloor.CreateTime = time.Now().Format("2006-01-02 15:04:05")
     db := utils.DBOpen()
     sqlDB, _ := db.DB()
@@ -96,8 +96,17 @@ func PostReplyBar(barfloor BarFloor) error {
     return err
 }
 
-// PostReplyBarFloor 楼中楼
-func PostReplyBarFloor(sonfloor SonFloor) error {
+// PostReplyBarBody 楼层主体
+func PostReplyBarBody(body ReplyBody) error {
+    client := utils.MongoOpen()
+    mongo := client.Database(config.MongoDBName)
+    collection := mongo.Collection(config.MongoBlogTabName)
+    _, err := collection.InsertOne(context.TODO(), body)
+    return err
+}
+
+// PostReplyBarFloorInf 楼中楼信息
+func PostReplyBarFloorInf(sonfloor SonFloor) error {
     sonfloor.CreateTime = time.Now().Format("2006-01-02 15:04:05")
     db := utils.DBOpen()
     sqlDB, _ := db.DB()
@@ -109,6 +118,15 @@ func PostReplyBarFloor(sonfloor SonFloor) error {
         return err
     }
     tx.Commit()
+    return err
+}
+
+// PostReplyBarFloorBody 楼中楼主体
+func PostReplyBarFloorBody(body ReplyBody) error {
+    client := utils.MongoOpen()
+    mongo := client.Database(config.MongoDBName)
+    collection := mongo.Collection(config.MongoBlogTabName)
+    _, err := collection.InsertOne(context.TODO(), body)
     return err
 }
 
