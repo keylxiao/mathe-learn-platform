@@ -37,6 +37,10 @@ func UserRouter(user iris.Party) {
 
 // WebsiteRouter 网站路由
 func WebsiteRouter(web iris.Party) {
+    // 添加外部网站
+    web.Post("/OnloadWeb", controllers.PostOnloadWeb)
+    // 添加外部网站图片
+    web.Post("/OnloadWebPicture", controllers.PostOnloadPic)
     // 按关键字返回外部网站
     web.Get("/OutsideWeb", controllers.GetWebsiteByKW)
 }

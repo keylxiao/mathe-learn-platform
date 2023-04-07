@@ -14,6 +14,8 @@ const (
     EmailCode string = "jzruajinzbyzhghj"
     // IconStorageAddress 用户头像存储地址
     IconStorageAddress string = "./UserImage/"
+    // PicStorageAddress 网站图标存储地址
+    PicStorageAddress string = "./WebImage/"
     // BlogStorageAddress 用户博文存储地址
     BlogStorageAddress string = "./Blog/"
 )

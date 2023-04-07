@@ -19,8 +19,8 @@ CREATE TABLE `outside_webs`
     `name`        varchar(20) DEFAULT NULL COMMENT '网站内容',
     `link`        varchar(50) DEFAULT NULL COMMENT '网址',
     `class`       varchar(15) DEFAULT NULL COMMENT '学科门类',
-    `picture_id`  int         DEFAULT 0 COMMENT '图标id',
-    `brief_intro` varchar(20) DEFAULT NULL COMMENT '简介'
+    `picture_id`  varchar(32) DEFAULT NULL COMMENT '图标id',
+    `brief_intro` varchar(100) DEFAULT NULL COMMENT '简介'
 ) charset utf8
   collate utf8_general_ci;
 
@@ -100,8 +100,8 @@ DROP TABLE IF EXISTS `son_floors`;
 CREATE TABLE `son_floors`
 (
     `id`           varchar(32) DEFAULT NULL COMMENT '楼中楼id',
-    `bar_id`         varchar(32) DEFAULT NULL COMMENT '所属帖子id',
-    `bar_floor_id`      varchar(32) DEFAULT NULL COMMENT '所属楼层id',
+    `bar_id`       varchar(32) DEFAULT NULL COMMENT '所属帖子id',
+    `bar_floor_id` varchar(32) DEFAULT NULL COMMENT '所属楼层id',
     `user_id`      varchar(32) DEFAULT NULL COMMENT '用户id',
     `reply_id`     varchar(32) DEFAULT NULL COMMENT '回复楼中楼id',
     `create_time`  varchar(21) DEFAULT NULL COMMENT '创建时间',
