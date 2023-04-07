@@ -43,6 +43,8 @@ func WebsiteRouter(web iris.Party) {
     web.Post("/OnloadWebPicture", controllers.PostOnloadPic)
     // 按关键字返回外部网站
     web.Get("/OutsideWeb", controllers.GetWebsiteByKW)
+    // 获取外部网站图片
+    web.Get("/WebPicture", controllers.GetWebPicture)
 }
 
 // BlogRouter 博文路由
