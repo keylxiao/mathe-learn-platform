@@ -1,0 +1,62 @@
+@charset "UTF-8";
+*{
+    margin:0;
+    border:0;
+    padding:0;
+}
+.clears{
+    clear: both;
+    height: 0;
+    overflow: hidden;
+    font-size: 0;
+    line-height: 0;
+}
+ul,li,ol{
+    list-style: none;
+}
+a{
+    text-decoration: none;
+}
+img{
+    border: none;
+}
+
+html{
+    font-family: '微软雅黑';
+    font-size: 16px;
+}
+
+body{
+    background-image: url("../images/bg.png");
+    color: #11112d;
+}
+
+
+a:hover {
+    outline: 0;  /*4个边框的样式 */
+}
+
+
+/* header */
+#header{
+    margin: 10px auto 0 auto;
+    margin-top: 50px;
+}
+
+#header h3{
+    font-size: 40px;
+    text-align: center;
+}
+
+/* container */
+.container{
+    margin: 70px auto 0 auto;
+    width: 960px;
+    max-width:100%;
+}
+
+.border-radius-1{
+    border: 1px solid #16cee0;
+    border-radius: 20px;
+    overflow: hidden;
+}
