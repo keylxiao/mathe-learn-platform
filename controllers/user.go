@@ -6,6 +6,7 @@ import (
     "io"
     "mathe-learn-platform/config"
     "mathe-learn-platform/models"
+    "mathe-learn-platform/utils"
     "net/http"
     "os"
 )
@@ -14,6 +15,8 @@ import (
 func PostUserRegister(c iris.Context) {
     var info models.User
     c.ReadJSON(&info)
+    id := utils.GetUUID("user")
+    info.Id = id
     // 恶意用户权限检测
     if info.Status == 0 {
         c.StatusCode(http.StatusBadRequest)
@@ -33,7 +36,7 @@ func PostUserRegister(c iris.Context) {
         c.JSON("注册失败, 请稍后重试!")
     } else {
         c.StatusCode(http.StatusOK)
-        c.JSON("注册成功, 欢迎您!")
+        c.JSON(id)
     }
 }
 
