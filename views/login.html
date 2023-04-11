@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>用户页面</title>
+    <link rel="stylesheet" href="./css/login.css" />
+    <link rel="stylesheet" href="./css/public.css" />
+    <script src="./js/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+    <script src="./js/jquery.validata.min.js" type="text/javascript" charset="utf-8"></script>
+</head>
+
+<body>
+    <div class="head">
+        <div class="shouye_head">
+            <a href="">大学生学习生活交流平台</a>
+        </div>
+    </div>
+    <div class="main" id="main">
+        <div class="form-container sign-up hidden">
+            <form class="denglu_biaodan">
+                <h1>注册</h1>
+                <input type="text" name="account" id="account" placeholder="学号/工号" />
+                <input type="text" id="username" name="username" placeholder="用户名" />
+                <input type="password" name="password" id="password" placeholder="请输入密码" />
+                <input type="text" name="telephone" id="telephone" placeholder="电话号码">
+                <input type="text" name="mailbox" id="mailbox" placeholder="邮箱地址">
+                <select name="status" id="status">
+                    <option value="">我的身份</option>
+                    <option value="student">学生</option>
+                    <option value="teacher">老师</option>
+                </select>
+                <select name="college" id="college">
+                    <option value="">请选择学院</option>
+                    <option value="理学院">数学学院</option>
+                    <option value="机电工程学院">机电工程学院</option>
+                    <option value="经济与管理学院">经济与管理学院</option>
+                    <option value="软件学院">软件学院</option>
+                    <option value="材料科学与工程学院">材料科学与工程学院</option>
+                    <option value="化学工程技术学院">化学工程技术学院</option>
+                    <option value="信息与通信工程学院">信息与通信工程学院</option>
+                    <option value="大数据学院">大数据学院</option>
+                </select>
+                <input type="text" name="major" id="major" placeholder="请输入专业" />
+                <button id="register" class="baodao" onclick="stopform(event)">注册</button>
+            </form>
+        </div>
+        <!-- 登录 -->
+        <div class="form-container sign-in">
+            <form class="denglu_biaodan">
+                <h1>登录</h1>
+                <input type="text" name="stuno_login" id="stuno_login" placeholder="学号">
+                <input type="password" name="password_login" id="password_login" placeholder="密码">
+                <a href="#">忘记密码?</a>
+                <button class="register" id="login" onclick="stopform(event)">登录</button>
+            </form>
+        </div>
+        <!-- 两边的蒙版 -->
+        <div class="overlay-container">
+            <div class="overlay">
+                <div class="overlay-panel mask-left">
+                    <h1>已经注册?</h1>
+                    <p></p>
+                    <button class="ghost" id='signIn'>登录</button>
+                </div>
+                <!-- 注册蒙版 -->
+                <div class="overlay-panel mask-right">
+                    <h1> 没有账号？</h1>
+                    <p>立即注册加入我们</p>
+                    <button class="ghost" id='signUp'>注册</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+        // 阻止form事件
+        function stopform(event) {
+            event.preventDefault();
+        }
+
+        // 模板功能
+        $(function () {
+            $("#signUp").click(function () {
+                $("#main").addClass("right-panel-active");
+                $(".sign-up").removeClass("hidden");
+                $(".sign-in").addClass("hidden");
+            });
+            $("#signIn").click(function () {
+                $("#main").removeClass("right-panel-active");
+                $(".sign-in").removeClass("hidden");
+                $(".sign-up").addClass("hidden");
+            });
+        });
+        // 登录事件
+        $('#login').click(function () {
+            var stuno = $('#stuno_login').val().toString()
+            var password = $('#password_login').val().toString()
+            var ajax = new XMLHttpRequest();
+            ajax.open("GET", "http://127.0.0.1:8001/User/UserLogin?account="+stuno+"&password="+password);
+            ajax.withCredentials = false;
+            ajax.setRequestHeader("Content-type", "application/json");
+            ajax.send();
+            ajax.onreadystatechange = function () {
+                var obj = ajax.responseText
+                console.log(obj.length,obj)
+                if (ajax.readyState === 4) {
+                    if (ajax.status === 500) {
+                        alert("服务器错误, 请稍后再试!")
+                    } else {
+                        if (obj.length === 10){
+                            alert("用户不存在")
+                        }else if (obj.length === 7){
+                            alert("登录失败!")
+                        }else {
+                            alert("登录成功!")
+                            window.location.replace('./outsideweb.html')
+                        }
+                    }
+                }
+            }
+        })
+        // 注册事件
+        $('#register').click(function () {
+            var stuno = $('#account').val().toString()
+            var username = $('#username').val().toString()
+            var password = $('#password').val().toString()
+            var phone = $('#telephone').val().toString()
+            var mailbox = $('#mailbox').val().toString();
+            var college = 8
+            var major = $('#major').val();
+            var obj = $('#status').val().toString()
+            var status
+            if (obj == '老师') {
+                status = 1
+            } else {
+                status = 2
+            }
+            var data = JSON.stringify({
+                "Account": stuno,
+                "Password": password,
+                "UserName": username,
+                "Telephone": phone,
+                "Mailbox": mailbox,
+                "Status": status,
+                "College": college,
+                "Major": major
+            })
+            var ajax = new XMLHttpRequest();
+            ajax.open('POST', 'http://127.0.0.1:8001/User/UserRegister');
+            ajax.setRequestHeader("Content-type", "application/json");
+            ajax.send(data);
+            ajax.onreadystatechange = function () {
+                if (ajax.readyState === 4) {
+                    if (ajax.status === 500) {
+                        alert("服务器错误, 请稍后再试！")
+                    } else {
+                        if (ajax.responseText.length === 34) {
+                            alert("注册成功")
+                        } else {
+                            alert(ajax.responseText)
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+    <div>
+</body>
+
+</html>
