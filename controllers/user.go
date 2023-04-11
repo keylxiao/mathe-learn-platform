@@ -43,12 +43,13 @@ func PostUserRegister(c iris.Context) {
 // GetUserLogin 用户登录
 func GetUserLogin(c iris.Context) {
     var info models.User
-    c.ReadJSON(&info)
-    isReal, err := models.GetUserLogin(info.Account, info.Password)
+    info.Account = c.URLParam("account")
+    info.Password = c.URLParam("password")
+    isReal, err, none := models.GetUserLogin(info.Account, info.Password)
     if err != nil {
-        if err == errors.New("none info") {
+        if none {
             c.StatusCode(http.StatusOK)
-            c.JSON("none")
+            c.JSON("none one")
         } else {
             c.StatusCode(http.StatusInternalServerError)
         }

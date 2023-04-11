@@ -69,22 +69,22 @@ func PostUserRegister(info User) error {
 }
 
 // GetUserLogin 用户登录
-func GetUserLogin(account, password string) (bool, error) {
+func GetUserLogin(account, password string) (bool, error, bool) {
     db := utils.DBOpen()
     sqlDB, _ := db.DB()
     defer sqlDB.Close()
     var info User
     err := db.Where("account = ?", account).Find(&info).Error
     if err != nil {
-        return false, err
+        return false, err, false
     }
     if info.Password == "" {
-        return false, errors.New("none info")
+        return false, errors.New("none info"), true
     }
     if info.Password == password {
-        return true, err
+        return true, err, true
     } else {
-        return false, err
+        return false, err, true
     }
 }
 
