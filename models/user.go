@@ -89,23 +89,15 @@ func GetUserLogin(account, password string) (bool, error, bool) {
 }
 
 // GetSendCode 用户请求发送验证码
-func GetSendCode(id string) error {
+func GetSendCode(mailbox, username string) error {
     db := utils.RedisOpen()
     defer db.Close()
-    sql := utils.DBOpen()
-    sqlDB, _ := sql.DB()
-    defer sqlDB.Close()
-    var user User
-    err := sql.Where("id = ?", id).Find(&user).Error
-    if err != nil {
-        return err
-    }
     code := strconv.Itoa(rand.Int() % 10000)
-    err = db.Set(id, code, 5*time.Minute).Err()
+    err := db.Set(mailbox, code, 5*time.Minute).Err()
     if err != nil {
         return err
     }
-    err = utils.SendEmail(user.Mailbox, code, user.UserName)
+    err = utils.SendEmail(mailbox, code, username)
     if err != nil {
         return err
     }

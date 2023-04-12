@@ -66,8 +66,9 @@ func GetUserLogin(c iris.Context) {
 
 // GetSendCode 用户请求发送验证码
 func GetSendCode(c iris.Context) {
-    userId := c.URLParam("id")
-    err := models.GetSendCode(userId)
+    mailbox := c.URLParam("mailbox")
+    username := c.URLParam("name")
+    err := models.GetSendCode(mailbox, username)
     if err != nil {
         c.StatusCode(http.StatusInternalServerError)
     } else {
