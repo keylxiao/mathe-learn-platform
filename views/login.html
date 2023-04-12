@@ -25,6 +25,8 @@
                 <input type="password" name="password" id="password" placeholder="请输入密码" />
                 <input type="text" name="telephone" id="telephone" placeholder="电话号码">
                 <input type="text" name="mailbox" id="mailbox" placeholder="邮箱地址">
+                <button class="register" id="sendcode" onclick="stopform(event)">发送验证码</button>
+                <input type="text" name="code" id="code" placeholder="请输入验证码">
                 <select name="status" id="status">
                     <option value="">我的身份</option>
                     <option value="student">学生</option>
@@ -42,7 +44,7 @@
                     <option value="大数据学院">大数据学院</option>
                 </select>
                 <input type="text" name="major" id="major" placeholder="请输入专业" />
-                <button id="register" class="baodao" onclick="stopform(event)">注册</button>
+                <button id="register" class="baodao" onclick="stopform(event)">注 册</button>
             </form>
         </div>
         <!-- 登录 -->
@@ -77,7 +79,11 @@
         function stopform(event) {
             event.preventDefault();
         }
+        // 检查合法邮箱地址
+        function legalemail(email) {
+            return /^[\w\-]+@[a-zA-Z\d\-]+(\.[a-zA-Z]{2,8}){1,2}$/ig.test(email);
 
+        }
         // 模板功能
         $(function () {
             $("#signUp").click(function () {
@@ -96,25 +102,48 @@
             var stuno = $('#stuno_login').val().toString()
             var password = $('#password_login').val().toString()
             var ajax = new XMLHttpRequest();
-            ajax.open("GET", "http://127.0.0.1:8001/User/UserLogin?account="+stuno+"&password="+password);
+            ajax.open("GET", "http://127.0.0.1:8001/User/UserLogin?account=" + stuno + "&password=" + password);
             ajax.withCredentials = false;
             ajax.setRequestHeader("Content-type", "application/json");
             ajax.send();
             ajax.onreadystatechange = function () {
                 var obj = ajax.responseText
-                console.log(obj.length,obj)
                 if (ajax.readyState === 4) {
                     if (ajax.status === 500) {
                         alert("服务器错误, 请稍后再试!")
                     } else {
-                        if (obj.length === 10){
+                        if (obj.length === 10) {
                             alert("用户不存在")
-                        }else if (obj.length === 7){
+                        } else if (obj.length === 7) {
                             alert("登录失败!")
-                        }else {
+                        } else {
                             alert("登录成功!")
                             window.location.replace('./outsideweb.html')
                         }
+                    }
+                }
+            }
+        })
+        //验证码事件
+        $('#sendcode').click(function () {
+            var name = $('#username').val().toString()
+            var mailbox = $('#mailbox').val().toString()
+            if (!legalemail(mailbox)) {
+                alert("邮箱格式有问题, 请重新输入!")
+                return
+            }
+            var ajax = new XMLHttpRequest();
+            ajax.open("GET", "http://127.0.0.1:8001/User/SendCode?mailbox=" + mailbox + "&name=" + name);
+            ajax.withCredentials = false;
+            ajax.setRequestHeader("Content-type", "application/json");
+            ajax.send();
+            ajax.onreadystatechange = function () {
+                var obj = ajax.responseText
+                if (ajax.readyState === 4) {
+                    if (ajax.status === 500) {
+                        alert("服务器错误, 请稍后再试!")
+                    } else {
+                        alert("发送成功, 请注意查收。")
                     }
                 }
             }
@@ -126,6 +155,7 @@
             var password = $('#password').val().toString()
             var phone = $('#telephone').val().toString()
             var mailbox = $('#mailbox').val().toString();
+            var code = $('#code').val().toString();
             var college = 8
             var major = $('#major').val();
             var obj = $('#status').val().toString()
@@ -135,29 +165,47 @@
             } else {
                 status = 2
             }
-            var data = JSON.stringify({
-                "Account": stuno,
-                "Password": password,
-                "UserName": username,
-                "Telephone": phone,
-                "Mailbox": mailbox,
-                "Status": status,
-                "College": college,
-                "Major": major
-            })
-            var ajax = new XMLHttpRequest();
-            ajax.open('POST', 'http://127.0.0.1:8001/User/UserRegister');
-            ajax.setRequestHeader("Content-type", "application/json");
-            ajax.send(data);
-            ajax.onreadystatechange = function () {
-                if (ajax.readyState === 4) {
-                    if (ajax.status === 500) {
+            var xhr = new XMLHttpRequest();
+            xhr.open('GET', 'http://127.0.0.1:8001/User/VerifyCode?id=' + mailbox + "&code=" + code);
+            xhr.setRequestHeader("Content-type", "application/json");
+            xhr.send();
+            xhr.onreadystatechange = function () {
+                var obj = xhr.responseText
+                if (xhr.readyState === 4) {
+                    if (xhr.status === 500) {
                         alert("服务器错误, 请稍后再试！")
                     } else {
-                        if (ajax.responseText.length === 34) {
-                            alert("注册成功")
-                        } else {
-                            alert(ajax.responseText)
+                        if (obj.length === 5) {
+                            alert("验证码错误")
+                            return
+                        }else{
+                            var data = JSON.stringify({
+                                "Account": stuno,
+                                "Password": password,
+                                "UserName": username,
+                                "Telephone": phone,
+                                "Mailbox": mailbox,
+                                "Status": status,
+                                "College": college,
+                                "Major": major
+                            })
+                            var ajax = new XMLHttpRequest();
+                            ajax.open('POST', 'http://127.0.0.1:8001/User/UserRegister');
+                            ajax.setRequestHeader("Content-type", "application/json");
+                            ajax.send(data);
+                            ajax.onreadystatechange = function () {
+                                if (ajax.readyState === 4) {
+                                    if (ajax.status === 500) {
+                                        alert("服务器错误, 请稍后再试！")
+                                    } else {
+                                        if (ajax.responseText.length === 34) {
+                                            alert("注册成功")
+                                        } else {
+                                            alert(ajax.responseText)
+                                        }
+                                    }
+                                }
+                            }
                         }
                     }
                 }
