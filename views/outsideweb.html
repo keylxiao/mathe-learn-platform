@@ -39,6 +39,73 @@
             height: 100px;
             font-size: 34px;
         }
+
+        table {
+            background-color: #FFF;
+            border: none;
+            color: #565;
+            font: 18px arial;
+        }
+
+        table caption {
+            font-size: 36px;
+            border-bottom: 3px solid #66CC;
+            border-top: 3px solid #66CC;
+        }
+
+        table,
+        td,
+        th {
+            margin: 0;
+            padding: 0;
+            vertical-align: middle;
+            text-align: left;
+        }
+
+        tbody td,
+        tbody th {
+            background-color: #CEA;
+            border-bottom: 3px solid #66fffa;
+            border-top: 4.5px solid #FFFFFF;
+            padding: 13px;
+        }
+
+
+        tfoot td,
+        tfoot th {
+            font-weight: bold;
+            padding: 6px 12px 9px 13px;
+            text-align: center;
+        }
+
+        thead th {
+            font-size: 21px;
+            font-weight: bold;
+            line-height: 28px;
+            padding: 0 12px 3px;
+            text-align: center;
+        }
+
+        tbody tr.odd th,
+        tbody tr.odd td {
+            /*odd就是偶数行*/
+            background-color: #CEA;
+            border-bottom: 3px solid #66cc;
+        }
+
+        td+td+td,
+        /*第三个td以及之后的td元素*/
+        col.price {
+            /*类样式*/
+            text-align: left;
+        }
+
+        tbody tr:hover td,
+        tbody tr:hover th {
+            /*tr也有hover样式*/
+            background-color: #66CCFF;
+            color: #fff;
+        }
     </style>
     <script type="text/javascript" src="./js/jquery.min.js"></script>
     <script type="text/javascript" src="./js/jquery.validata.min.js"></script>
@@ -65,25 +132,30 @@
             <!-- 查找 -->
             <div class="form-container sign-in">
                 <!-- <form class="denglu_biaodan" action="http://127.0.0.1:8001/Website/OutsideWeb"> -->
-                    <h3>查找</h3>
-                    <input type="text" name="kw" id="kw" placeholder="关键字" >
-                    <button class="search" id="search" ">查找</button>
+                <h3>查找</h3>
+                <input type="text" name="kw" id="kw" placeholder="关键字">
+                <button class="search" id="search">查找</button>
                 <!-- </form> -->
             </div>
 
             <!-- 显示框 -->
-            <tbody id="Website">
+            <tbody id='Website'>
+
             </tbody>
 
         </table>
     </div>
 
     <script>
+        // 阻止form事件
+        function stopform(event) {
+            event.preventDefault();
+        }
         $(document).ready(function () {
             $.get('http://127.0.0.1:8001/Website/OutsideWeb', { kw: "" }, function (data) {
                 var obj = eval(data)
                 var tbody = document.getElementById('Website')
-                
+
                 for (var i = 0; i < obj.length; i++) {
                     var tr = document.createElement('tr')
                     tbody.appendChild(tr)
@@ -92,18 +164,22 @@
                             continue
                         }
                         var td = document.createElement('td')
-                        td.innerHTML = obj[i][k]
+                        if (k=="Link"){
+                            td.innerHTML = "<a href='" + obj[i][k]+"'>"+ obj[i][k] + "</a>"
+                        }else{
+                            td.innerHTML = obj[i][k]
+                        }
                         tr.appendChild(td)
                     }
                 }
             })
-        })
-        search.onclick = function(){
+        });
+        search.onclick = function () {
             $("#Website").empty();
             var ajax = new XMLHttpRequest()
-            ajax.open('GET','http://127.0.0.1:8001/Website/OutsideWeb?kw='+kw.value)
+            ajax.open('GET', 'http://127.0.0.1:8001/Website/OutsideWeb?kw=' + kw.value)
             ajax.send();
-            ajax.onload = function(){
+            ajax.onload = function () {
                 var obj = eval(ajax.responseText)
                 var tbody = document.getElementById('Website')
                 for (var i = 0; i < obj.length; i++) {
