@@ -1,7 +1,6 @@
 package models
 
 import (
-    "gorm.io/gorm"
     "mathe-learn-platform/utils"
 )
 
@@ -22,7 +21,10 @@ func GetHomePageInfo() (HomePageInformation, error) {
 // PutPlatformVisit 访问平台人数增加
 func PutPlatformVisit() {
     db := utils.DBOpen()
-    db.Model(&HomePageInformation{}).Update("total_visitor", gorm.Expr("total_visitor + ?", 1))
+    var info HomePageInformation
+    db.Find(&info)
+    info.TotalVisitor++
+    db.Model(&info).Where("total_visitor = ?", info.TotalVisitor-1).Update("total_visitor", info.TotalVisitor)
     sqlDB, _ := db.DB()
     defer sqlDB.Close()
 }
