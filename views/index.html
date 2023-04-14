@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./css/public.css" />
+    <title>index</title>
+    <style>
+        .selection {
+            position: fixed;
+            top: 300px;
+            left: 250px;
+            ;
+        }
+
+        .btn1 {
+            width: 300px;
+            height: 100px;
+            font-size: 34px;
+        }
+
+        .btn2 {
+            width: 300px;
+            height: 100px;
+            font-size: 34px;
+        }
+
+        .btn3 {
+            width: 300px;
+            height: 100px;
+            font-size: 34px;
+        }
+
+        .btn4 {
+            width: 300px;
+            height: 100px;
+            font-size: 34px;
+        }
+    </style>
+    <script type="text/javascript" src="./js/jquery.min.js"></script>
+    <script type="text/javascript" src="./js/jquery.validata.min.js"></script>
+    <script src="https://cdn.staticfile.org/vue/2.7.0/vue.min.js"></script>
+</head>
+
+<body>
+    <div id="header">
+        <h3>大学生学习生活交流平台</h3>
+    </div>
+    <!-- <form> -->
+    <!-- 显示框 -->
+    <table>
+        <tbody id='Website'>
+
+        </tbody>
+    </table>
+
+    <div class="selection">
+        <button class="btn1" onclick="stopform(event)">新手注册</button>
+        <button class="btn2" onclick="stopform(event)">我要发博</button>
+        <button class="btn3" onclick="stopform(event)">我要发帖</button>
+        <button class="btn4" onclick="stopform(event)">随便看看</button>
+    </div>
+    <!-- </form> -->
+
+    <script type="text/javascript">
+        // 阻止form事件
+        function stopform(event) {
+            event.preventDefault();
+        }
+        $(document).ready(function () {
+            // 新增访问者
+            var ajax = new XMLHttpRequest()
+            ajax.open('PUT', 'http://127.0.0.1:8001/HomePage/PlatformVisit')
+            ajax.send();
+            // 查看访问者
+            $.get('http://127.0.0.1:8001/HomePage/HomePageInfo', function (data) {
+                var obj = eval(data)
+                var tbody = document.getElementById('Website')
+                var tr = document.createElement('tr')
+                tbody.appendChild(tr)
+                var td = document.createElement('td')
+                td.innerHTML = "欢迎来到大学生学习生活交流平台!您是第" + obj["TotalVisitor"] + "位访问者!"
+                tr.appendChild(td)
+            })
+        });
+        $('.btn1').click(function () {
+            window.location.href = "login.html"
+        })
+        $('.btn2').click(function () {
+            window.location.href = "blog.html"
+        })
+        $('.btn3').click(function () {
+            window.location.href = "bar.html"
+        })
+        $('.btn4').click(function () {
+            window.location.href = "outsideweb.html"
+
+        })
+    </script>
+</body>
+
+</html>
