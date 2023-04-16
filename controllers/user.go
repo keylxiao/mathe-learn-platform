@@ -45,9 +45,9 @@ func GetUserLogin(c iris.Context) {
     var info models.User
     info.Account = c.URLParam("account")
     info.Password = c.URLParam("password")
-    isReal, err, none := models.GetUserLogin(info.Account, info.Password)
+    isReal, err, id := models.GetUserLogin(info.Account, info.Password)
     if err != nil {
-        if none {
+        if id == "" {
             c.StatusCode(http.StatusOK)
             c.JSON("none one")
         } else {
@@ -57,7 +57,7 @@ func GetUserLogin(c iris.Context) {
     }
     if isReal {
         c.StatusCode(http.StatusOK)
-        c.JSON("true")
+        c.JSON(id)
     } else {
         c.StatusCode(http.StatusOK)
         c.JSON("false")
