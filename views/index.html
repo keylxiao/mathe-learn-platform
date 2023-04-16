@@ -69,6 +69,11 @@
         function stopform(event) {
             event.preventDefault();
         }
+        // 获取地址栏参数
+        function getQueryStringRegExp(name) {
+            var reg = new RegExp("(^|\\\?|&)" + name + "=(\[^&\]*)(\\\s|&|$)", "i");
+            if (reg.test(location.href)) return unescape(RegExp.$2.replace(/\\+/g, " ")); return "";
+        }
         $(document).ready(function () {
             // 新增访问者
             var ajax = new XMLHttpRequest()
@@ -89,10 +94,21 @@
             window.location.href = "login.html"
         })
         $('.btn2').click(function () {
-            window.location.href = "blog.html"
+            id = getQueryStringRegExp("id")
+            if (id == ""){
+                window.location.href = "login.html"
+            }else{
+                window.location.href = "blogmaker.html?id="+id
+            }
+           
         })
         $('.btn3').click(function () {
-            window.location.href = "bar.html"
+             id = getQueryStringRegExp("id")
+            if (id == "") {
+                window.location.href = "login.html"
+            } else {
+            window.location.href = "bar.html?id="+id
+            }
         })
         $('.btn4').click(function () {
             window.location.href = "outsideweb.html"
