@@ -57,6 +57,12 @@ func PostOnloadBlogBody(body BlogBody) error {
     mongo := client.Database(config.MongoDBName)
     collection := mongo.Collection(config.MongoBlogTabName)
     _, err := collection.InsertOne(context.TODO(), body)
+    if err != nil {
+        db := utils.DBOpen()
+        sqlDB, _ := db.DB()
+        defer sqlDB.Close()
+        db.Where("blog_id = ?", body.BlogId).Delete(&Blog{})
+    }
     return err
 }
 
