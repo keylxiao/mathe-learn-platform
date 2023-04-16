@@ -107,7 +107,7 @@
             ajax.setRequestHeader("Content-type", "application/json");
             ajax.send();
             ajax.onreadystatechange = function () {
-                var obj = ajax.responseText
+                var obj = JSON.parse(ajax.responseText)
                 if (ajax.readyState === 4) {
                     if (ajax.status === 500) {
                         alert("服务器错误, 请稍后再试!")
