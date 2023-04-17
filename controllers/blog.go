@@ -94,6 +94,18 @@ func GetAllBlogList(c iris.Context) {
     }
 }
 
+// GetBlogListByKW 按关键字查找博文
+func GetBlogListByKW(c iris.Context) {
+    kw := c.URLParam("kw")
+    result, err := models.GetBlogListByKW(kw)
+    if err != nil {
+        c.StatusCode(http.StatusInternalServerError)
+    } else {
+        c.StatusCode(http.StatusOK)
+        c.JSON(result)
+    }
+}
+
 //// PutUpdateBlog 修改博文
 //func PutUpdateBlog(c iris.Context) {
 //    id := c.URLParam("id")

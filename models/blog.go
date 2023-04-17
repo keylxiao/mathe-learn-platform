@@ -86,6 +86,14 @@ func GetAllBlogList() ([]Blog, error) {
     return blog, err
 }
 
+// GetBlogListByKW 按关键字返回外部网站
+func GetBlogListByKW(kw string) ([]Blog, error) {
+    var info []Blog
+    db := utils.DBOpen()
+    err := db.Where("state = ?", 0).Where("name LIKE ?", "%"+kw+"%").Or("brief_intro LIKE ?", "%"+kw+"%").Find(&info).Error
+    return info, err
+}
+
 // PutUpdateBlogInf 修改用户博文信息
 func PutUpdateBlogInf(id string, update ...string) error {
     var blog Blog
