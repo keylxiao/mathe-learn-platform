@@ -94,6 +94,17 @@ func GetBlogListByKW(kw string) ([]Blog, error) {
     return info, err
 }
 
+// GetBlogListByID 按id返回外部网站
+func GetBlogListByID(id string) (Blog, error) {
+    var info Blog
+    var user User
+    db := utils.DBOpen()
+    err := db.Where("blog_id = ?", id).Find(&info).Error
+    err = db.Where("id = ?", info.UserId).Find(&user).Error
+    info.UserId = user.UserName
+    return info, err
+}
+
 // PutUpdateBlogInf 修改用户博文信息
 func PutUpdateBlogInf(id string, update ...string) error {
     var blog Blog

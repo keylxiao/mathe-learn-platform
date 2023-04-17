@@ -63,6 +63,8 @@ func BlogRouter(blog iris.Party) {
     blog.Get("/UserBlogList", controllers.GetUserBlogList)
     // 获取所有博文目录
     blog.Get("/AllBlogList", controllers.GetAllBlogList)
+    // 获取博文信息
+    blog.Get("/BlogInf", controllers.GetBlogInf)
     // 按关键字获取博文目录
     blog.Get("/BlogListByKW", controllers.GetBlogListByKW)
     // 查看具体博文

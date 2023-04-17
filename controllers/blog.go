@@ -106,6 +106,18 @@ func GetBlogListByKW(c iris.Context) {
     }
 }
 
+// GetBlogInf 获取博文信息
+func GetBlogInf(c iris.Context) {
+    id := c.URLParam("id")
+    result, err := models.GetBlogListByID(id)
+    if err != nil {
+        c.StatusCode(http.StatusInternalServerError)
+    } else {
+        c.StatusCode(http.StatusOK)
+        c.JSON(result)
+    }
+}
+
 //// PutUpdateBlog 修改博文
 //func PutUpdateBlog(c iris.Context) {
 //    id := c.URLParam("id")
