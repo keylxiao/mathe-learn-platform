@@ -82,6 +82,18 @@ func GetUserBlogList(c iris.Context) {
     }
 }
 
+// GetAllBlogList 获取所有博文目录
+func GetAllBlogList(c iris.Context) {
+    info, err := models.GetAllBlogList()
+    if err != nil {
+        c.StatusCode(http.StatusInternalServerError)
+        return
+    } else {
+        c.StatusCode(http.StatusOK)
+        c.JSON(info)
+    }
+}
+
 //// PutUpdateBlog 修改博文
 //func PutUpdateBlog(c iris.Context) {
 //    id := c.URLParam("id")

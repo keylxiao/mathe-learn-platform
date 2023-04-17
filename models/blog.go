@@ -76,6 +76,16 @@ func GetUserBlogList(id string) ([]Blog, error) {
     return blog, err
 }
 
+// GetAllBlogList 获取所有博文目录
+func GetAllBlogList() ([]Blog, error) {
+    db := utils.DBOpen()
+    sqlDB, _ := db.DB()
+    defer sqlDB.Close()
+    var blog []Blog
+    err := db.Where("state = ?", 0).Find(&blog).Error
+    return blog, err
+}
+
 // PutUpdateBlogInf 修改用户博文信息
 func PutUpdateBlogInf(id string, update ...string) error {
     var blog Blog
