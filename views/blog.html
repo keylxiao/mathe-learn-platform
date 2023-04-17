@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./css/public.css" />
+    <title>Blog</title>
+    <style>
+        .selection {
+            position: fixed;
+            top: 300px;
+            left: 250px;
+            ;
+        }
+
+        .btn1 {
+            width: 300px;
+            height: 100px;
+            font-size: 34px;
+        }
+
+        .btn2 {
+            width: 300px;
+            height: 100px;
+            font-size: 34px;
+        }
+
+        .btn3 {
+            width: 300px;
+            height: 100px;
+            font-size: 34px;
+        }
+
+        .btn4 {
+            width: 300px;
+            height: 100px;
+            font-size: 34px;
+        }
+
+        table {
+            border: 1px solid;
+            margin: 0 auto;
+        }
+    </style>
+    <script type="text/javascript" src="./js/jquery.min.js"></script>
+    <script type="text/javascript" src="./js/jquery.validata.min.js"></script>
+    <script src="https://cdn.staticfile.org/vue/2.7.0/vue.min.js"></script>
+</head>
+
+<body>
+    <div id="header">
+        <h3>博客详情</h3>
+    </div>
+    <table>
+        <tbody id='Website'>
+
+        </tbody>
+    </table>
+
+    <script type="text/javascript">
+        // 阻止form事件
+        function stopform(event) {
+            event.preventDefault();
+        }
+        // 获取地址栏参数
+        function getQueryStringRegExp(name) {
+            var reg = new RegExp("(^|\\\?|&)" + name + "=(\[^&\]*)(\\\s|&|$)", "i");
+            if (reg.test(location.href)) return unescape(RegExp.$2.replace(/\\+/g, " ")); return "";
+        }
+        $(document).ready(function () {
+            var id = getQueryStringRegExp("id")
+            // 获取文章信息
+            $.get('http://127.0.0.1:8001/Blog/BlogInf?id=' + id, function (data) {
+                var inf = eval(data)
+                var tbody = document.getElementById('Website')
+                var tr1 = document.createElement('tr')
+                tr1.innerHTML = "<h2>" + inf["BlogName"] + "</h2>"
+                tbody.appendChild(tr1)
+                var tr2 = document.createElement('tr')
+                tr2.innerHTML = "<p>作者:" + inf["UserId"] + "</p>"
+                tbody.appendChild(tr2)
+                var tr3 = document.createElement('tr')
+                tr3.innerHTML = "<p>创建时间:" + inf["CreateTime"] + "</p>"
+                tbody.appendChild(tr3)
+                var tr4 = document.createElement('tr')
+                tr4.innerHTML = "<div></div>"
+                tbody.appendChild(tr4)
+            })
+            // 获取文章主体
+            $.get('http://127.0.0.1:8001/Blog/ViewBlog?id=' + id, function (data) {
+                console.log(data)
+                var tbody = document.getElementById('Website')
+                var tr = document.createElement('tr')
+                tr.innerHTML = data
+                tbody.appendChild(tr)
+            })
+        })
+
+    </script>
+</body>
+
+</html>
