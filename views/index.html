@@ -41,6 +41,7 @@
     </style>
     <script type="text/javascript" src="./js/jquery.min.js"></script>
     <script type="text/javascript" src="./js/jquery.validata.min.js"></script>
+    <link rel="stylesheet" href="./css/navBar.css">
     <script src="https://cdn.staticfile.org/vue/2.7.0/vue.min.js"></script>
 </head>
 
@@ -58,8 +59,8 @@
 
     <div class="selection">
         <button class="btn1" onclick="stopform(event)">新手注册</button>
-        <button class="btn2" onclick="stopform(event)">我要发博</button>
-        <button class="btn3" onclick="stopform(event)">我要发帖</button>
+        <button class="btn2" onclick="stopform(event)">看看博客</button>
+        <!-- <button class="btn3" onclick="stopform(event)">我要发帖</button> -->
         <button class="btn4" onclick="stopform(event)">随便看看</button>
     </div>
     <!-- </form> -->
@@ -89,25 +90,44 @@
                 td.innerHTML = "欢迎来到大学生学习生活交流平台!您是第" + obj["TotalVisitor"] + "位访问者!"
                 tr.appendChild(td)
             })
+            // 增加登录状态
+            id = getQueryStringRegExp("id")
+            if (id != "") {
+                $.get('http://127.0.0.1:8001/User/UserInfo?id=' + id, function (data) {
+                    var obj = eval(data)
+                    var ul = document.getElementById('Website')
+                    ul.className = "nav1"
+                    var img = document.createElement('img')
+                    ul.appendChild(img)
+                    img.src = "http://127.0.0.1:8001/User/UserIcon?id="+id
+                    img.height = "50"
+                    img.width = "50"
+                    var li = document.createElement('div')
+                    ul.appendChild(li)
+                    li.className = "item"
+                    li.innerHTML = obj["UserName"] + ', 欢迎您!'
+                    
+                })
+            }
         });
         $('.btn1').click(function () {
             window.location.href = "login.html"
         })
         $('.btn2').click(function () {
             id = getQueryStringRegExp("id")
-            if (id == ""){
-                window.location.href = "login.html"
-            }else{
-                window.location.href = "blogmaker.html?id="+id
-            }
-           
-        })
-        $('.btn3').click(function () {
-             id = getQueryStringRegExp("id")
             if (id == "") {
                 window.location.href = "login.html"
             } else {
-            window.location.href = "bar.html?id="+id
+                window.location.href = "blogList.html?id=" + id
+            }
+
+        })
+        $('.btn3').click(function () {
+            id = getQueryStringRegExp("id")
+            if (id == "") {
+                window.location.href = "login.html"
+            } else {
+                window.location.href = "bar.html?id=" + id
             }
         })
         $('.btn4').click(function () {
