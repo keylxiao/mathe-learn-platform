@@ -6,6 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="./css/public.css" />
+    <link rel="stylesheet" href="./css/login.css" />
     <title>Blog</title>
     <style>
         .selection {
@@ -39,24 +40,24 @@
             font-size: 34px;
         }
 
-        table {
+        tbody {
             border: 1px solid;
             margin: 0 auto;
         }
     </style>
     <script type="text/javascript" src="./js/jquery.min.js"></script>
     <script type="text/javascript" src="./js/jquery.validata.min.js"></script>
-    <script src="https://cdn.staticfile.org/vue/2.7.0/vue.min.js"></script>
 </head>
 
 <body>
     <div id="header">
         <h3>博客详情</h3>
     </div>
+    <!-- <button id='like'>点赞</button> -->
     <table>
-        <tbody id='Website'>
+        <div id='Website' margin="0" border="1">
 
-        </tbody>
+        </div>
     </table>
 
     <script type="text/javascript">
@@ -75,18 +76,32 @@
             $.get('http://127.0.0.1:8001/Blog/BlogInf?id=' + id, function (data) {
                 var inf = eval(data)
                 var tbody = document.getElementById('Website')
-                var tr1 = document.createElement('tr')
-                tr1.innerHTML = "<h2>" + inf["BlogName"] + "</h2>"
-                tbody.appendChild(tr1)
-                var tr2 = document.createElement('tr')
-                tr2.innerHTML = "<p>作者:" + inf["UserId"] + "</p>"
-                tbody.appendChild(tr2)
-                var tr3 = document.createElement('tr')
-                tr3.innerHTML = "<p>创建时间:" + inf["CreateTime"] + "</p>"
-                tbody.appendChild(tr3)
-                var tr4 = document.createElement('tr')
-                tr4.innerHTML = "<div></div>"
-                tbody.appendChild(tr4)
+
+                var name = document.createElement('h2')
+                name.innerHTML = inf["BlogName"]
+                tbody.appendChild(name)
+
+                var username = document.createElement('p')
+                username.innerHTML = "作者:" + inf["UserId"]
+                tbody.appendChild(username)
+
+                var time = document.createElement('p')
+                time.innerHTML = "创建时间:" + inf["CreateTime"]
+                tbody.appendChild(time)
+
+                var btn = document.createElement('button')
+                btn.id = "like111"
+                btn.onclick = function(){
+                    id = getQueryStringRegExp("id")
+                    var xhr = new XMLHttpRequest()
+                    xhr.open('PUT', 'http://127.0.0.1:8001/Blog/BlogLikes?id=' + id)
+                    xhr.send();
+                }
+                btn.innerHTML = "点赞数" + inf["LikesNumber"]
+                tbody.appendChild(btn)
+
+                var tr5 = document.createElement('div')
+                tbody.appendChild(tr5)
             })
             // 获取文章主体
             $.get('http://127.0.0.1:8001/Blog/ViewBlog?id=' + id, function (data) {
