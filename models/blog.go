@@ -10,13 +10,14 @@ import (
 
 // Blog 博文信息结构体
 type Blog struct {
-    UserId     string `gorm:"primary_key"` // 用户id
-    BlogId     string // 博文id
-    BlogName   string // 博文名称
-    BriefIntro string // 博文简介
-    State      int    // 博文状态(初始0 仅自己可见1 软删除2)
-    CreateTime string // 创建时间
-    UpdateTime string // 修改时间
+    UserId      string `gorm:"primary_key"` // 用户id
+    BlogId      string // 博文id
+    BlogName    string // 博文名称
+    BriefIntro  string // 博文简介
+    State       int    // 博文状态(初始0 仅自己可见1 软删除2)
+    LikesNumber int    // 点赞数
+    CreateTime  string // 创建时间
+    UpdateTime  string // 修改时间
 }
 
 // BlogBody 博文主体
