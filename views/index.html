@@ -131,7 +131,8 @@
             }
         })
         $('.btn4').click(function () {
-            window.location.href = "outsideweb.html"
+            id = getQueryStringRegExp("id")
+            window.location.href = "outsideweb.html?id = "+id
 
         })
     </script>

@@ -69,6 +69,8 @@ func BlogRouter(blog iris.Party) {
     blog.Get("/BlogListByKW", controllers.GetBlogListByKW)
     // 查看具体博文
     blog.Get("/ViewBlog", controllers.GetViewBlog)
+    // 博文点赞
+    blog.Put("/BlogLikes", controllers.PutBlogLikes)
 }
 
 // PostBarRouter 贴吧路由

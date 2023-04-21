@@ -133,6 +133,7 @@
                 <h3>查找</h3>
                 <input type="text" name="kw" id="kw" placeholder="关键字">
                 <button class="search" id="search">查找</button>
+                <button class="search" id="write">我要写博</button>
                 <!-- </form> -->
             </div>
 
@@ -148,6 +149,11 @@
         // 阻止form事件
         function stopform(event) {
             event.preventDefault();
+        }
+        // 获取地址栏参数
+        function getQueryStringRegExp(name) {
+            var reg = new RegExp("(^|\\\?|&)" + name + "=(\[^&\]*)(\\\s|&|$)", "i");
+            if (reg.test(location.href)) return unescape(RegExp.$2.replace(/\\+/g, " ")); return "";
         }
         $(document).ready(function () {
             $.get('http://127.0.0.1:8001/Blog/AllBlogList', function (data) {
@@ -190,6 +196,10 @@
                     }
                 }
             }
+        }
+        write.onclick = function () {
+            id = getQueryStringRegExp("id")
+            window.location.href = "blogmaker.html?id=" + id
         }
     </script>
 </body>

@@ -170,3 +170,14 @@ func GetViewBlog(id string) (string, error) {
     err := collection.FindOne(context.TODO(), bson.D{{"blogid", id}}).Decode(&body)
     return body.Body, err
 }
+
+// PutBlogLikes 博文点赞
+func PutBlogLikes(id string) error {
+    db := utils.DBOpen()
+    var info Blog
+    db.Find(&info).Where("blog_id = ?", id)
+    err := db.Model(&info).UpdateColumn("likes_number", info.LikesNumber+1).Error
+    sqlDB, _ := db.DB()
+    defer sqlDB.Close()
+    return err
+}

@@ -202,3 +202,14 @@ func GetViewBlog(c iris.Context) {
         c.JSON(body)
     }
 }
+
+// PutBlogLikes 博文点赞
+func PutBlogLikes(c iris.Context) {
+    id := c.URLParam("id")
+    err := models.PutBlogLikes(id)
+    if err != nil {
+        c.StatusCode(http.StatusInternalServerError)
+    } else {
+        c.StatusCode(http.StatusOK)
+    }
+}
