@@ -14,7 +14,7 @@ type Blog struct {
     BlogId      string // 博文id
     BlogName    string // 博文名称
     BriefIntro  string // 博文简介
-    State       int    // 博文状态(初始0 仅自己可见1 软删除2)
+    State       int    // 博文状态(审核中0 审核通过1 未过审2)
     LikesNumber int    // 点赞数
     CreateTime  string // 创建时间
     UpdateTime  string // 修改时间
@@ -77,25 +77,25 @@ func GetUserBlogList(id string) ([]Blog, error) {
     return blog, err
 }
 
-// GetAllBlogList 获取所有博文目录
-func GetAllBlogList() ([]Blog, error) {
+// GetAllBlogList 按状态获取所有博文目录
+func GetAllBlogList(state int) ([]Blog, error) {
     db := utils.DBOpen()
     sqlDB, _ := db.DB()
     defer sqlDB.Close()
     var blog []Blog
-    err := db.Where("state = ?", 0).Find(&blog).Error
+    err := db.Where("state = ?", state).Find(&blog).Error
     return blog, err
 }
 
-// GetBlogListByKW 按关键字返回外部网站
+// GetBlogListByKW 按关键字返回博文
 func GetBlogListByKW(kw string) ([]Blog, error) {
     var info []Blog
     db := utils.DBOpen()
-    err := db.Where("state = ?", 0).Where("name LIKE ?", "%"+kw+"%").Or("brief_intro LIKE ?", "%"+kw+"%").Find(&info).Error
+    err := db.Where("state = ?", 1).Where("name LIKE ?", "%"+kw+"%").Or("brief_intro LIKE ?", "%"+kw+"%").Find(&info).Error
     return info, err
 }
 
-// GetBlogListByID 按id返回外部网站
+// GetBlogListByID 按id返回博文
 func GetBlogListByID(id string) (Blog, error) {
     var info Blog
     var user User
