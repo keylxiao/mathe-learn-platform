@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./css/public.css" />
+    <title>manage</title>
+    <style>
+        .selection {
+            position: fixed;
+            top: 300px;
+            left: 250px;
+        }
+
+        .btn {
+            width: 300px;
+            height: 100px;
+            font-size: 34px;
+        }
+    </style>
+    <script type="text/javascript" src="./js/jquery.min.js"></script>
+    <script type="text/javascript" src="./js/jquery.validata.min.js"></script>
+    <link rel="stylesheet" href="./css/navBar.css">
+</head>
+
+<body>
+    <div id="header">
+        <h3>尊敬的管理员, 欢迎您!</h3>
+    </div>
+
+    <div class="selection">
+        <button class="btn" onclick="stopform(event)" id = "blogexamine">博文审核</button>
+        <button class="btn" onclick="stopform(event)" id = "studyonload">学习资料上传</button>
+    </div>
+
+    <script type="text/javascript">
+        // 阻止form事件
+        function stopform(event) {
+            event.preventDefault();
+        }
+        // 获取地址栏参数
+        function getQueryStringRegExp(name) {
+            var reg = new RegExp("(^|\\\?|&)" + name + "=(\[^&\]*)(\\\s|&|$)", "i");
+            if (reg.test(location.href)) return unescape(RegExp.$2.replace(/\\+/g, " ")); return "";
+        }
+        $('#blogexamine').click(function () {
+            window.location.href = "blogexamine.html"
+        })
+        $('studyonload').click(function () {
+                window.location.href = "webonload.html"
+        })
+    </script>
+</body>
+
+</html>

@@ -118,7 +118,11 @@
                             alert("登录失败!")
                         } else {
                             alert("登录成功!")
-                            window.location.replace('./index.html?id='+obj)
+                            if (stuno == "admin"){
+                                window.location.replace('./manage.html')
+                            }else{
+                                window.location.replace('./index.html?id=' + obj)
+                            }
                         }
                     }
                 }
