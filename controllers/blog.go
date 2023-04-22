@@ -84,7 +84,7 @@ func GetUserBlogList(c iris.Context) {
 
 // GetAllBlogList 获取所有博文目录
 func GetAllBlogList(c iris.Context) {
-    info, err := models.GetAllBlogList(0)
+    info, err := models.GetAllBlogList(1)
     if err != nil {
         c.StatusCode(http.StatusInternalServerError)
         return
@@ -108,7 +108,7 @@ func GetBlogListByKW(c iris.Context) {
 
 // GetBlogExamine 后台审核博文获取
 func GetBlogExamine(c iris.Context) {
-    info, err := models.GetAllBlogList(1)
+    info, err := models.GetAllBlogList(0)
     if err != nil {
         c.StatusCode(http.StatusInternalServerError)
         return
