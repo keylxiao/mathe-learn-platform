@@ -91,7 +91,7 @@ func GetAllBlogList(state int) ([]Blog, error) {
 func GetBlogListByKW(kw string) ([]Blog, error) {
     var info []Blog
     db := utils.DBOpen()
-    err := db.Where("state = ?", 1).Where("name LIKE ?", "%"+kw+"%").Or("brief_intro LIKE ?", "%"+kw+"%").Find(&info).Error
+    err := db.Where("state = ?", 1).Where("blog_name LIKE ?", "%"+kw+"%").Or("brief_intro LIKE ?", "%"+kw+"%").Find(&info).Error
     return info, err
 }
 
