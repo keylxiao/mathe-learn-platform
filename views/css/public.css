@@ -1,62 +1,173 @@
 @charset "UTF-8";
-*{
-    margin:0;
-    border:0;
-    padding:0;
+
+* {
+    margin: 0;
+    border: 0;
+    padding: 0;
 }
-.clears{
+
+.codelist a.item-top {
+    width: 28%;
+    margin: 0 8px 10px 0;
+    text-align: left;
+    height: 80px;
+    color: #bbb;
+    background-color: #f6f6f6;
+    border-radius: 5px;
+    padding: 6px 16px
+}
+
+.clears {
     clear: both;
     height: 0;
     overflow: hidden;
     font-size: 0;
     line-height: 0;
 }
-ul,li,ol{
+
+ul,
+li,
+ol {
     list-style: none;
 }
-a{
+
+a {
     text-decoration: none;
 }
-img{
+
+img {
     border: none;
 }
 
-html{
+html {
     font-family: '微软雅黑';
     font-size: 16px;
 }
 
-body{
+body {
     background-image: url("../images/bg.png");
     color: #11112d;
 }
 
 
 a:hover {
-    outline: 0;  /*4个边框的样式 */
+    outline: 0;
+    /*4个边框的样式 */
 }
 
 
 /* header */
-#header{
+#header {
     margin: 10px auto 0 auto;
     margin-top: 50px;
 }
 
-#header h3{
+#header h3 {
     font-size: 40px;
     text-align: center;
 }
 
 /* container */
-.container{
+.container {
     margin: 70px auto 0 auto;
     width: 960px;
-    max-width:100%;
+    max-width: 100%;
 }
 
-.border-radius-1{
+.btn_blog {
+    border-radius: 15px;
+    border: 1px solid #66ccff;
+    background: #66ccff;
+    width: 120px;
+    height: 40px;
+    line-height: 30px;
+    color: #fff;
+    font-size: 17px;
+    font-weight: bold;
+    letter-spacing: 4px;
+    transition: transform 80ms ease-in;
+    cursor: pointer;
+}
+
+.btn_blog:active {
+    transform: scale(.95);
+}
+
+.btn_blog:focus {
+    outline: none;
+}
+
+.btn_blog.ghost {
+    background: #66ccff;
+    border-color: #fff;
+}
+
+.border-radius-1 {
     border: 1px solid #16cee0;
     border-radius: 20px;
     overflow: hidden;
+}
+
+.input_blog {
+    background: #eee;
+    border: none;
+    padding: 12px 15px;
+    margin: 8px 0;
+    width: 300px;
+    outline: none;
+}
+
+.btn_index {
+    width: 300px;
+    height: 150px;
+    line-height: 46px;
+    background: #66ccff;
+    color: #ffffff;
+    font-size: 50px;
+    border-radius: 27px;
+    /* animation: zoomIn 1.5s infinite; */
+    text-align: center;
+}
+
+.head {
+    position: relative;
+    height: 45px;
+    background-color: #2b2626;
+}
+
+.index_head {
+    width: 1000px;
+    margin: 0 auto;
+    height: 45px;
+    line-height: 45px;
+}
+
+.index_head a {
+    color: #efe6e6;
+    font-size: 22px;
+    font-weight: 600;
+}
+
+.selection1 {
+    position: absolute;
+    font-size: 25px;
+    top: 300px;
+    left: 250px;
+}
+
+.selection2 {
+    position: relative;
+    top: 300px;
+    left: 250px;
+    ;
+}
+
+@keyframes zoomIn {
+    50% {
+        transform: scale(1.2);
+    }
+
+    100% {
+        transform: scale(1);
+    }
 }

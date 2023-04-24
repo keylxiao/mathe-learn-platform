@@ -63,7 +63,7 @@ func GetWebsiteByKW(c iris.Context) {
 // GetWebPicture 获取外部网站图片
 func GetWebPicture(c iris.Context) {
     userId := c.URLParam("id")
-    userId = config.IconStorageAddress + userId + ".jpg"
+    userId = config.PicStorageAddress + userId + ".jpg"
     c.StatusCode(http.StatusOK)
     c.SendFile(userId, "icon.jpg")
 }
