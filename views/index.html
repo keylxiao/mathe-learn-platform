@@ -48,7 +48,7 @@
                 $.get('http://127.0.0.1:8001/HomePage/HomePageInfo', function (data) {
                     var obj = eval(data)
                     var div = document.getElementById('Website')
-                    var paragraph = document.createElement('p')
+                    var paragraph = document.createElement('h2')
                     paragraph.innerHTML = "欢迎访问数学专业学习资源平台! 您是第" + obj["TotalVisitor"] + "位访问者!"
                     div.appendChild(paragraph)
                 })
@@ -86,7 +86,7 @@
             })
             $('#just_look').click(function () {
                 id = getQueryStringRegExp("id")
-                window.location.href = "outsideweb.html?id = " + id
+                window.location.href = "outsideweb.html?id=" + id
 
             })
         </script>

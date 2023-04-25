@@ -1,0 +1,47 @@
+/* 清除所有元素的默认外边距和内边距 */
+* {
+    margin: 0; 
+    padding: 0;
+}
+
+/* 列表 ul 的样式  */
+.nav1 {
+    width: 1000px;
+    margin: 0 auto; /* 整个列表居中显示 */
+}
+
+ul li{
+    list-style: none;   /* 去除列表默认符号（圆点） */
+    margin-left:0px;  
+}
+
+/* 列表项 li 的样式  */
+.nav1 .item {
+    float: left;    /* 设置浮动，列表项横向排列 */
+    width: 200px;
+    text-align: center; /* 文本水平居中 */
+    background-color: #66ccff;
+    color: white;
+    line-height: 40px;  /* 设置行高，文本垂直居中 */
+}
+
+/* 伪类选择器，鼠标移入时，对应列表项改变样式 */
+.nav1 .item:hover {
+    background-color: red;
+}
+
+/* 列表项 li 中子导航栏的样式  */
+.nav1 .item ul {
+    display: none;  /* 元素不显示，隐藏子导航栏 */
+    background-color: #004b8c;  /* 默认与鼠标移入后对应列表项的背景色一致，此处更改颜色 */
+}
+
+/* 鼠标移入，对应列表项中子导航栏改变样式  */
+.nav1 .item:hover ul {
+    display: block;  /* 元素显示为块元素，子导航栏出现 */
+}
+
+/* 鼠标移入子导航栏的列表项时，列表项改变样式  */
+ .nav1 .item ul li:hover {
+   background-color: red;
+}
