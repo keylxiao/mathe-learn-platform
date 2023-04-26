@@ -175,8 +175,7 @@ func GetViewBlog(id string) (string, error) {
 func PutBlogLikes(id string) error {
     db := utils.DBOpen()
     var info Blog
-    db.Find(&info).Where("blog_id = ?", id)
-    err := db.Model(&info).UpdateColumn("likes_number", info.LikesNumber+1).Error
+    err := db.Find(&info).Where("blog_id = ?", id).UpdateColumn("likes_number", info.LikesNumber+1).Error
     sqlDB, _ := db.DB()
     defer sqlDB.Close()
     return err
