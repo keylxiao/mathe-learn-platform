@@ -73,7 +73,7 @@ func GetUserBlogList(id string) ([]Blog, error) {
     sqlDB, _ := db.DB()
     defer sqlDB.Close()
     var blog []Blog
-    err := db.Where("user_id = ?", id).Where("state = ?", 0).Find(&blog).Error
+    err := db.Where("user_id = ?", id).Find(&blog).Error
     return blog, err
 }
 

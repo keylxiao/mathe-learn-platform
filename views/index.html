@@ -13,8 +13,8 @@
 
 <body>
     <div class="head">
-        <div class="index_head">
-            <a href="">数学专业学习资源平台</a>
+        <div class="index_head" id="edge">
+            <a href="">欢迎来到数学专业学习资源平台</a>
         </div>
     </div>
 
@@ -57,18 +57,23 @@
                 if (id != "") {
                     $.get('http://127.0.0.1:8001/User/UserInfo?id=' + id, function (data) {
                         var obj = eval(data)
-                        var ul = document.getElementById('Website')
-                        ul.className = "nav1"
+                        // var ul = document.getElementById('Website')
+                        var ul = document.getElementById('edge')
+                        // ul.className = "nav1"
+
+
+
                         var img = document.createElement('img')
                         ul.appendChild(img)
                         img.src = "http://127.0.0.1:8001/User/UserIcon?id=" + id
-                        img.height = "50"
-                        img.width = "50"
-                        var li = document.createElement('div')
-                        ul.appendChild(li)
-                        li.className = "item"
-                        li.innerHTML = obj["UserName"] + ', 欢迎您!'
+                        img.height = "45"
+                        img.width = "45"
+                        img.align = "right"
 
+                        var li = document.createElement('a')
+                        ul.appendChild(li)
+                        li.align = "right"
+                        li.innerHTML = "," + obj["UserName"]
                     })
                 }
             });
