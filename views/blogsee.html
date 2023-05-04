@@ -47,18 +47,30 @@
 
                 var name = document.createElement('h2')
                 name.innerHTML = inf["BlogName"]
+                name.align = "center"
                 tbody.appendChild(name)
 
                 var username = document.createElement('p')
                 username.innerHTML = "作者:" + inf["UserId"]
+                username.align = "center"
                 tbody.appendChild(username)
 
                 var time = document.createElement('p')
                 time.innerHTML = "创建时间:" + inf["CreateTime"]
+                time.align = "center"
                 tbody.appendChild(time)
+
+                // 获取文章主体
+                $.get('http://127.0.0.1:8001/Blog/ViewBlog?id=' + id, function (data) {
+                    var page = document.createElement('p')
+                    page.innerHTML = data
+                    page.align = "center"
+                    tbody.appendChild(page)
+                })
 
                 var pass = document.createElement('button')
                 pass.id = "pass"
+                // pass.className = "btn_1"
                 pass.onclick = function () {
                     id = getQueryStringRegExp("id")
                     var data = JSON.stringify({
@@ -75,7 +87,8 @@
                 tbody.appendChild(pass)
 
                 var fail = document.createElement('button')
-                pass.id = "fail"
+                fail.id = "fail"
+                // fail.className = "btn_1"
                 fail.onclick = function () {
                     id = getQueryStringRegExp("id")
                     var data = JSON.stringify({
@@ -93,14 +106,6 @@
 
                 var tr5 = document.createElement('div')
                 tbody.appendChild(tr5)
-            })
-            // 获取文章主体
-            $.get('http://127.0.0.1:8001/Blog/ViewBlog?id=' + id, function (data) {
-                console.log(data)
-                var tbody = document.getElementById('Website')
-                var tr = document.createElement('tr')
-                tr.innerHTML = data
-                tbody.appendChild(tr)
             })
         })
 
