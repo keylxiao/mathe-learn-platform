@@ -23,7 +23,7 @@
     </div>
 
     <div class="selection2">
-        <div>
+        <div id="btn">
             <button class="btn_index" onclick="stopform(event)" id="register">新手注册</button>
             <button class="btn_index" onclick="stopform(event)" id="blog">看看博客</button>
             <button class="btn_index" onclick="stopform(event)" id="just_look">随便看看</button>
@@ -57,11 +57,7 @@
                 if (id != "") {
                     $.get('http://127.0.0.1:8001/User/UserInfo?id=' + id, function (data) {
                         var obj = eval(data)
-                        // var ul = document.getElementById('Website')
                         var ul = document.getElementById('edge')
-                        // ul.className = "nav1"
-
-
 
                         var img = document.createElement('img')
                         ul.appendChild(img)
@@ -73,7 +69,16 @@
                         var li = document.createElement('a')
                         ul.appendChild(li)
                         li.align = "right"
-                        li.innerHTML = "," + obj["UserName"]
+                        li.innerHTML = ", " + obj["UserName"]
+
+                        var btnhub = document.getElementById('btn')
+                        var myblog = document.createElement('button')
+                        btnhub.appendChild(myblog)
+                        myblog.innerText = "我的博客"
+                        myblog.className = "btn_index"
+                        myblog.onclick = function () {
+                            window.location.href = "blogstate.html?id=" + id
+                        }
                     })
                 }
             });
