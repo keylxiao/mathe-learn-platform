@@ -53,7 +53,7 @@ CREATE TABLE `blogs`
     `user_id`     varchar(32) DEFAULT NULL COMMENT '用户uid',
     `blog_id`     varchar(32) DEFAULT NULL COMMENT '博文uid',
     `blog_name`   varchar(15) DEFAULT NULL COMMENT '博文名称',
-    `brief_intro` varchar(20) DEFAULT NULL COMMENT '简介',
+    `brief_intro` varchar(50) DEFAULT NULL COMMENT '简介',
     `state`       int         DEFAULT 0 COMMENT '审核中0 审核通过1 未过审2',
     `likes_number`       int         DEFAULT 0 COMMENT '点赞数',
     `create_time` varchar(21) DEFAULT NULL COMMENT '创建时间',
