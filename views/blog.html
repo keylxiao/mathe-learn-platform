@@ -38,7 +38,7 @@
                 var inf = eval(data)
                 var tbody = document.getElementById('Website')
 
-                var name = document.createElement('h2')
+                var name = document.createElement('h1')
                 name.innerHTML = inf["BlogName"]
                 name.align = "center"
                 tbody.appendChild(name)
@@ -73,7 +73,8 @@
                 var tbody = document.getElementById('Website')
                 var page = document.createElement('p')
                 page.innerHTML = data
-                page.align = "center"
+                // page.align = "center"
+                page.id = "page"
                 tbody.appendChild(page)
             })
         })
