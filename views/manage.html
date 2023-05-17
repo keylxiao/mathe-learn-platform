@@ -6,24 +6,45 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="./css/public.css" />
+    <link rel="stylesheet" href="./css/style.css" />
     <title>manage</title>
     <script type="text/javascript" src="./js/jquery.min.js"></script>
     <script type="text/javascript" src="./js/jquery.validata.min.js"></script>
     <link rel="stylesheet" href="./css/navBar.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js"></script>
 </head>
 
 <body>
-     <div class="head">
+    <div class="head">
         <div class="index_head">
-            <a href="">尊敬的管理员, 欢迎您! </a>
+            <a href="">后台管理系统</a>
+            <ul class="nav navbar-nav pull-right">
+                <li><a href="#">尊敬的管理员, 欢迎您!</a></li>
+                <li><a href="./login.html">退出</a></li>
+                <li><a href="#">消息<span class="badge">10</span></a></li>
+            </ul>
         </div>
     </div>
+    <div class="sidebar">
+        <div class="sidebar-left">
+            <ul>
+                <li>
+                    <h4 style="text-align: center;">今日任务</h4>
+                </li>
+                <li id="examine">
+                    <p>博文审核</p>
+                </li>
+                <li id="web_onload">
+                    <p>资料上传</p>
+                </li>
+            </ul>
+        </div>
+        <div class="sidebar-right" id='Website'>
 
-    <div class="selection2">
-        <button class="btn_index" onclick="stopform(event)" id = "blogexamine">博文审核</button>
-        <button class="btn_index" onclick="stopform(event)" id = "studyonload">资料上传</button>
+        </div>
     </div>
-
     <script type="text/javascript">
         // 阻止form事件
         function stopform(event) {
@@ -34,12 +55,205 @@
             var reg = new RegExp("(^|\\\?|&)" + name + "=(\[^&\]*)(\\\s|&|$)", "i");
             if (reg.test(location.href)) return unescape(RegExp.$2.replace(/\\+/g, " ")); return "";
         }
-        $('#blogexamine').click(function () {
-            window.location.href = "blogexamine.html"
-        })
-        $('studyonload').click(function () {
-                window.location.href = "webonload.html"
-        })
+        function blog_structure(id) {
+            $("#Website").empty();
+            // 获取文章信息
+            $.get('http://127.0.0.1:8001/Blog/BlogInf?id=' + id, function (data) {
+                var inf = eval(data)
+                var body = document.getElementById('Website')
+
+                var dad_div = document.createElement('div')
+                dad_div.className = "sidebar-right-blogdiv"
+                body.appendChild(dad_div)
+
+                var name = document.createElement('h2')
+                name.innerHTML = inf["BlogName"]
+                name.align = "center"
+                dad_div.appendChild(name)
+
+                var username = document.createElement('p')
+                username.innerHTML = "作者:" + inf["UserId"]
+                username.align = "center"
+                dad_div.appendChild(username)
+
+                var time = document.createElement('p')
+                time.innerHTML = "创建时间:" + inf["CreateTime"]
+                time.align = "center"
+                dad_div.appendChild(time)
+
+                // 获取文章主体
+                $.get('http://127.0.0.1:8001/Blog/ViewBlog?id=' + id, function (data) {
+                    var page = document.createElement('p')
+                    page.innerHTML = data
+                    page.align = "center"
+                    dad_div.appendChild(page)
+                })
+
+                var pass = document.createElement('button')
+                pass.className = "btn_1"
+                pass.onclick = function () {
+                    var data = JSON.stringify({
+                        "BlogId": id,
+                        "NewState": 1
+                    })
+                    var xhr = new XMLHttpRequest()
+                    xhr.open('PUT', 'http://127.0.0.1:8001/Blog/UpdateBlogState')
+                    xhr.send(data);
+                    alert("感谢审核! ")
+                    location.reload()
+                }
+                pass.innerHTML = "审核通过"
+                dad_div.appendChild(pass)
+
+                var fail = document.createElement('button')
+                fail.className = "btn_1"
+                fail.onclick = function () {
+                    var data = JSON.stringify({
+                        "BlogId": id,
+                        "NewState": 2
+                    })
+                    var xhr = new XMLHttpRequest()
+                    xhr.open('PUT', 'http://127.0.0.1:8001/Blog/UpdateBlogState')
+                    xhr.send(data);
+                    alert("感谢审核! ")
+                    location.reload()
+                }
+                fail.innerHTML = "审核不通过"
+                dad_div.appendChild(fail)
+
+                var tr5 = document.createElement('div')
+                dad_div.appendChild(tr5)
+            })
+        }
+        function structure(obj) {
+            var body = document.getElementById('Website')
+
+            var dad_div = document.createElement('div')
+            body.appendChild(dad_div)
+            dad_div.className = "single-member effect-3"
+
+            dad_div.onclick = function () {
+                blog_structure(obj["BlogId"])
+            }
+
+            var img_div = document.createElement('div')
+            dad_div.appendChild(img_div)
+            img_div.className = "member-image"
+
+            var img = document.createElement('img')
+            img_div.appendChild(img)
+            img.src = "http://127.0.0.1:8001/User/UserIcon?id=" + obj["UserId"]
+
+            var inf_div = document.createElement('div')
+            dad_div.appendChild(inf_div)
+            inf_div.className = "member-info"
+
+            var h3 = document.createElement('h3')
+            inf_div.appendChild(h3)
+            h3.innerHTML = obj["BlogName"]
+
+            var p = document.createElement('p')
+            inf_div.appendChild(p)
+            p.innerHTML = obj["BriefIntro"]
+        }
+        function onload_structure(body) {
+            var body = document.getElementById('Website')
+
+            var dad_div = document.createElement('div')
+            dad_div.className = "sidebar-right-div"
+            body.appendChild(dad_div)
+
+            var image = document.createElement('input')
+            image.type = "file"
+            image.accept = "image/jpeg, image/png, image/jpg"
+            dad_div.appendChild(image)
+            image.placeholder = "图片"
+
+
+            var name = document.createElement('input')
+            dad_div.appendChild(name)
+            name.placeholder = "名称"
+
+            var link = document.createElement('input')
+            dad_div.appendChild(link)
+            link.placeholder = "链接"
+
+            var _class = document.createElement('input')
+            dad_div.appendChild(_class)
+            _class.placeholder = "类别"
+
+            var BriefIntro = document.createElement('input')
+            dad_div.appendChild(BriefIntro)
+            BriefIntro.placeholder = "简介"
+
+            var onload = document.createElement('button')
+            onload.onclick = function () {
+                id = getQueryStringRegExp("id")
+                var data = JSON.stringify({
+                    "Name": name.value,
+                    "Link": link.value,
+                    "Class": _class.value,
+                    "BriefIntro": BriefIntro.value
+                })
+                var xhr = new XMLHttpRequest()
+                xhr.open('POST', 'http://127.0.0.1:8001/Website/OnloadWeb')
+                xhr.send(data);
+                xhr.onreadystatechange = function () {
+                    var picture_id = eval(xhr.responseText)
+                    if (xhr.readyState === 4) {
+                        if (xhr.status === 500) {
+                            alert("服务器错误, 请稍后再试!")
+                        } else {
+                            var formData = new FormData();
+                            formData.append('id', picture_id);
+                            formData.append('image', image.files[0]);
+                            var ajax = new XMLHttpRequest()
+                            ajax.withCredentials = true;
+                            ajax.open('POST', 'http://127.0.0.1:8001/Website/OnloadWebPicture')
+                            ajax.send(formData);
+                            ajax.onreadystatechange = function () {
+                                var obj = eval(ajax.responseText)
+                                if (ajax.readyState === 4) {
+                                    if (ajax.status === 500) {
+                                        alert("服务器错误, 请稍后再试!")
+                                    } else {
+                                        alert("感谢上传! ")
+                                        image.value = ""
+                                        name.value = ""
+                                        link.value = ""
+                                        _class.value = ""
+                                        BriefIntro.value = ""
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            onload.innerHTML = "上传"
+            dad_div.appendChild(onload)
+        }
+        $(document).ready(function () {
+            $.get('http://127.0.0.1:8001/Blog/BlogExamine', function (data) {
+                var obj = eval(data)
+                for (var i = 0; i < obj.length; i++) {
+                    structure(obj[i])
+                }
+            })
+        });
+        $('#examine').click(function () {
+            $("#Website").empty();
+            $.get('http://127.0.0.1:8001/Blog/BlogExamine', function (data) {
+                var obj = eval(data)
+                for (var i = 0; i < obj.length; i++) {
+                    structure(obj[i])
+                }
+            })
+        });
+        $('#web_onload').click(function () {
+            $("#Website").empty();
+            onload_structure()
+        });
     </script>
 </body>
 
