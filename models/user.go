@@ -52,7 +52,6 @@ func CheckOnlyOne(info User) string {
 
 // PostUserRegister 用户注册
 func PostUserRegister(info User) error {
-    info.Id = utils.GetUUID("user")
     info.CreateTime = time.Now().Format("2006-01-02 15:04:05")
     info.UpdateTime = time.Now().Format("2006-01-02 15:04:05")
     db := utils.DBOpen()
