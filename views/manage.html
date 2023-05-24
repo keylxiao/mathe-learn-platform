@@ -187,6 +187,7 @@
             BriefIntro.placeholder = "简介"
 
             var onload = document.createElement('button')
+            onload.className = "btn_1"
             onload.onclick = function () {
                 id = getQueryStringRegExp("id")
                 var data = JSON.stringify({
